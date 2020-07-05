@@ -49,12 +49,18 @@ function Home() {
   return <h2>Home</h2>;
 }
 
+
 function Channel(probs) {
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      console.log('enter press here! ')
+    }
+  }  
   let { channelId } = useParams();
   return (
     <div>
       <h2>Requested channel ID: {channelId}</h2>
-      <Input focus placeholder='Search...' />
+      <Input focus placeholder='Message...' onKeyPress={handleKeyPress} />
     </div>
   );
 }
