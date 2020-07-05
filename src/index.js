@@ -9,7 +9,6 @@ import {
   Switch,
   Route,
   useParams,
-  Link
 } from "react-router-dom";
 
 ReactDOM.render(
@@ -62,10 +61,6 @@ function Channel(probs) {
 
 function About() {
   return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
 
 serviceWorker.unregister();
