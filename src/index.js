@@ -1,22 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-//import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {
-  API_URL
-} from './settings';
-import { 
-  useState,
-//  useEffect
-} from 'react';
-import { Input } from 'semantic-ui-react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useParams,
 } from "react-router-dom";
+import Channel from './channel';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -54,60 +45,6 @@ export default function App() {
 
 function Home() {
   return <h2>Home</h2>;
-}
-
-function Channel(probs) {
-  let { channelId } = useParams();
-  return (
-    <div>
-    <h2>Channel ID: {channelId}</h2>
-      <TextMessageInput channelId={channelId}></TextMessageInput>
-    </div>
-  );
-
-}
-
-function TextMessageInput(probs){
-
-  const {channelId} = probs;
-  
-  const [inputMessage, setInputMessage] = useState('');
-
-  onchange=(event)=>{
-    setInputMessage(event.target.value);
-  }
-
-  const handleKeyPress = (event) => {
-    if(event.key === 'Enter'){
-      const textContent = {text: event.target.value};
-      console.log('channel:', channelId, 'content:', textContent);
-      message(channelId, {
-        user: 'userplaceholder',
-        content: textContent
-      }).then(() => {
-        setInputMessage('');
-      });
-    }
-  }  
-
-  const message = (async (channel_id, msg) => {
-    const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}`,{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({message: msg})
-    });
-    const content = await rawResponse.json();
-    console.log(content);      
-  });
-
-  return (
-    <div>
-      <Input focus value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e)=>{handleKeyPress(e)}} />
-    </div>
-  );
-
 }
 
 function About() {
