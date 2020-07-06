@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 //import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {
+  API_URL
+} from './settings';
+import { useState } from 'react';
 import { Input } from 'semantic-ui-react'
 import {
   BrowserRouter as Router,
@@ -50,30 +54,41 @@ function Home() {
 }
 
 function Channel(probs) {
+  //const [channelId, setChannelId] = useState(null);
+  const [inputMessage, setInputMessage] = useState('');
+  onchange=(event)=>{
+    setInputMessage(event.target.value);
+  }
   const handleKeyPress = (event) => {
     if(event.key === 'Enter'){
-      //console.log('enter press here! ', event.target.value)
-      console.log('enter press here! ', event.target.value);
-      message('alex', event.target.value)
+      message(channelId, {
+        user: 'userplaceholder',
+        content: {text: event.target.value}
+      }).then(() => {
+        setInputMessage('');
+      })
     }
   }  
-  const message = (async (channel_id, text) => {
-    const rawResponse = await fetch(`https://postbox-api1.sp33c.tech/api/v1/channel/${channel_id}`,{
+  const message = (async (channel_id, msg) => {
+    console.log('message', channel_id, msg)
+    const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({message: text})
+      body: JSON.stringify({message: msg})
     });
     const content = await rawResponse.json();
     console.log(content);      
   });
 
-  let { channelId } = useParams();
+  let { channelParamId } = useParams();
+  //setChannelId(channelParamId);
+  const channelId = channelParamId;
   return (
     <div>
-      <h2>Requested channel ID: {channelId}</h2>
-      <Input focus placeholder='Message...' onKeyPress={handleKeyPress} />
+      <h2>Requested channel ID: {channelParamId}</h2>
+      <Input focus value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={handleKeyPress} />
     </div>
   );
 }
