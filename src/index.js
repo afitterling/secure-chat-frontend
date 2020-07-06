@@ -6,7 +6,10 @@ import * as serviceWorker from './serviceWorker';
 import {
   API_URL
 } from './settings';
-import { useState } from 'react';
+import { 
+  useState,
+//  useEffect
+} from 'react';
 import { Input } from 'semantic-ui-react'
 import {
   BrowserRouter as Router,
@@ -54,23 +57,40 @@ function Home() {
 }
 
 function Channel(probs) {
-  //const [channelId, setChannelId] = useState(null);
+  let { channelId } = useParams();
+  return (
+    <div>
+    <h2>Channel ID: {channelId}</h2>
+      <TextMessageInput channelId={channelId}></TextMessageInput>
+    </div>
+  );
+
+}
+
+function TextMessageInput(probs){
+
+  const {channelId} = probs;
+  
   const [inputMessage, setInputMessage] = useState('');
+
   onchange=(event)=>{
     setInputMessage(event.target.value);
   }
+
   const handleKeyPress = (event) => {
     if(event.key === 'Enter'){
+      const textContent = {text: event.target.value};
+      console.log('channel:', channelId, 'content:', textContent);
       message(channelId, {
         user: 'userplaceholder',
-        content: {text: event.target.value}
+        content: textContent
       }).then(() => {
         setInputMessage('');
-      })
+      });
     }
   }  
+
   const message = (async (channel_id, msg) => {
-    console.log('message', channel_id, msg)
     const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}`,{
       method: 'POST',
       headers: {
@@ -82,15 +102,12 @@ function Channel(probs) {
     console.log(content);      
   });
 
-  let { channelParamId } = useParams();
-  //setChannelId(channelParamId);
-  const channelId = channelParamId;
   return (
     <div>
-      <h2>Requested channel ID: {channelParamId}</h2>
-      <Input focus value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={handleKeyPress} />
+      <Input focus value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e)=>{handleKeyPress(e)}} />
     </div>
   );
+
 }
 
 function About() {
