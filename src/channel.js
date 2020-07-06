@@ -4,107 +4,124 @@ import { withRouter } from "react-router";
 import {
   API_URL
 } from './settings';
-import { 
+import {
   useState,
 } from 'react';
 import { Input } from 'semantic-ui-react'
 import { v4 as uuidv4 } from 'uuid';
 
-function TextMessageInput(probs){
+function TextMessageInput(probs) {
 
-    const {user, channelId} = probs;
-    const [inputMessage, setInputMessage] = useState('');
-  
-    onchange=(event)=>{
-      setInputMessage(event.target.value);
-    }
-  
-    const handleKeyPress = (event) => {
-      if(event.key === 'Enter'){
-        const textContent = {text: event.target.value};
-        console.log('channel:', channelId, 'content:', textContent);
-        message(channelId, {
-          id: uuidv4(),
-          user: user,
-          content: textContent
-        }).then(() => {
-          setInputMessage('');
-        });
-      }
-    }  
-  
-    const message = (async (channel_id, msg) => {
-      console.log(channel_id);
-      const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}`,{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({message: msg})
+  const { user, channelId } = probs;
+  const [inputMessage, setInputMessage] = useState('');
+
+  onchange = (event) => {
+    setInputMessage(event.target.value);
+  }
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      const textContent = { text: event.target.value };
+      console.log('channel:', channelId, 'content:', textContent);
+      message(channelId, {
+        id: uuidv4(),
+        user: user,
+        content: textContent
+      }).then(() => {
+        setInputMessage('');
       });
-      const content = await rawResponse.json();
-      console.log(content);      
+    }
+  }
+
+  const message = (async (channel_id, msg) => {
+    console.log(channel_id);
+    const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message: msg })
     });
-  
+    const content = await rawResponse.json();
+    console.log(content);
+  });
+
+  return (
+    <div>
+      <Input focus value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e) => { handleKeyPress(e) }} />
+      <button class="ui primary button">Hit Enter</button>
+    </div>
+  );
+
+}
+
+
+function ChatHistory(probs) {
+  const { messages } = probs;
+  console.log('messages', messages);
+  return (
+    <div class="ui relaxed divided list">
+    {messages.map( ({user, id, content}) => (
+      <div class="item" key={id}>
+        <i class="large github middle aligned icon"></i>
+        <div class="content">
+          <a class="header">{user}</a>
+          <div class="description">{content.text}</div>
+        </div>
+      </div>
+    ))}
+    </div>
+  );
+}
+
+
+
+class Channel extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.channelId = this.props.match.params.channelId;
+    this.source = new EventSource(`${API_URL}v1/channel/${this.channelId}`, {
+      withCredentials: true
+    });
+    this.state = {
+      messages: [],
+      user: uuidv4()
+    };
+  }
+
+  onMessage = (e) => {
+    const js = JSON.parse(e.data.replace(/'/g, "\""));
+    this.setState({ messages: [...this.state.messages, js] });
+  }
+
+  componentDidMount() {
+    //this.setState(this.state);
+    this.source.addEventListener('message', this.onMessage);
+  }
+
+  componentWillUnmount() {
+    this.source.removeEventListener('message', this.onMessage);
+  }
+
+  // https://atomizedobjects.com/blog/react/add-event-listener-react-hooks/
+  render() {
     return (
       <div>
-        <Input focus value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e)=>{handleKeyPress(e)}} />
+        <h2 class="ui header">
+          <i class="settings icon"></i>
+          <div class="content">
+            channel: {this.channelId}
+            <div class="sub header">user: {this.state.user}</div>
+          </div>
+        </h2>
+        <ChatHistory channelId={this.channelId} messages={this.state.messages} />
+        <TextMessageInput user={this.state.user} channelId={this.channelId} />
       </div>
     );
-  
-  }
-  
 
-function ChatHistory(probs){
-    const { messages } = probs;
-    console.log('messages', messages);
-    return (
-    <ul>{messages.map( m => (<li key={m.id}>{m.user}: {m.content.text}</li>))}</ul>
-    );
   }
-  
 
+}
 
-  class Channel extends React.Component {
-  
-    constructor(props) {
-      super(props);
-      this.channelId = this.props.match.params.channelId;
-      this.source = new EventSource(`${API_URL}v1/channel/${this.channelId}`, {
-        withCredentials: true
-      });
-      this.state = {
-        messages: [],
-        user: uuidv4()
-      };
-    }
-  
-    onMessage = (e) => { 
-      const js = JSON.parse(e.data.replace(/'/g, "\""));
-      this.setState({ messages: [...this.state.messages, js]});
-    }
-  
-    componentDidMount() {
-      //this.setState(this.state);
-      this.source.addEventListener('message', this.onMessage);    
-    }
-  
-    componentWillUnmount() {
-      this.source.removeEventListener('message', this.onMessage);
-    }
-      
-    // https://atomizedobjects.com/blog/react/add-event-listener-react-hooks/
-    render() {  
-      return (
-        <div>
-        <h2>Channel ID: {this.channelId}</h2>
-          <ChatHistory channelId={this.channelId} messages={this.state.messages}/>
-          <TextMessageInput user={this.state.user}channelId={this.channelId}/>
-        </div>
-      );
-    
-    }
-  
-  }
-  
-  export default withRouter(Channel);
+export default withRouter(Channel);
