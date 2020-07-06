@@ -49,13 +49,26 @@ function Home() {
   return <h2>Home</h2>;
 }
 
-
 function Channel(probs) {
   const handleKeyPress = (event) => {
     if(event.key === 'Enter'){
-      console.log('enter press here! ')
+      //console.log('enter press here! ', event.target.value)
+      console.log('enter press here! ', event.target.value);
+      message('alex', event.target.value)
     }
   }  
+  const message = (async (channel_id, text) => {
+    const rawResponse = await fetch(`https://postbox-api1.sp33c.tech/api/v1/channel/${channel_id}`,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({message: text})
+    });
+    const content = await rawResponse.json();
+    console.log(content);      
+  });
+
   let { channelId } = useParams();
   return (
     <div>
