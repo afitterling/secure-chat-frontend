@@ -65,7 +65,7 @@ function ChatHistory(probs) {
       <div class="item" key={id}>
         <i class="large github middle aligned icon"></i>
         <div class="content">
-          <a class="header">{user}</a>
+          <a class="header" href="/user">{user}</a>
           <div class="description">{content.text}</div>
         </div>
       </div>
