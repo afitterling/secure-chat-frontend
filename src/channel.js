@@ -115,11 +115,8 @@ class Channel extends React.Component {
     this.cancel = setInterval(()=>{
       console.log('resubscribe');
       this.source.removeEventListener('message', this.onMessage);
-      this.source = new EventSource(`${API_URL}v1/channel/${this.channelId}`, {
-        withCredentials: true
-      });  
       this.source.addEventListener('message', this.onMessage);
-    }, 5000);
+    }, 8000);
   }
 
   componentWillUnmount() {
