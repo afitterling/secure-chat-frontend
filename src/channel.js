@@ -64,9 +64,12 @@ function TextMessageInput(probs) {
 function ChatHistory(probs) {
   const { messages } = probs;
   console.log('messages', messages);
+  const style={
+    paddingBottom: "0.8rem"
+  }
   return (
     <Container>
-      <div class="ui relaxed divided list">
+      <div class="ui relaxed divided list" style={style}>
       {messages.map( ({user, id, content}) => (
         <div class="item" key={id}>
           <i class="large github middle aligned icon"></i>
