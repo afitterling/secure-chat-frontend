@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { Input } from 'semantic-ui-react'
 import { v4 as uuidv4 } from 'uuid';
+import { Container } from 'semantic-ui-react'
 
 function TextMessageInput(probs) {
 
@@ -46,11 +47,15 @@ function TextMessageInput(probs) {
     console.log(content);
   });
 
+  const style = {
+    width: '100%'
+  }
+
   return (
-    <div>
-      <Input focus value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e) => { handleKeyPress(e) }} />
-      <button class="ui primary button">Hit Enter</button>
-    </div>
+    <Container>
+      <Input focus style={style} value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e) => { handleKeyPress(e) }} />
+      {/* <button class="ui primary button">Hit Enter</button> */}
+    </Container>
   );
 
 }
@@ -60,17 +65,19 @@ function ChatHistory(probs) {
   const { messages } = probs;
   console.log('messages', messages);
   return (
-    <div class="ui relaxed divided list">
-    {messages.map( ({user, id, content}) => (
-      <div class="item" key={id}>
-        <i class="large github middle aligned icon"></i>
-        <div class="content">
-          <a class="header" href="/user">{user}</a>
-          <div class="description">{content.text}</div>
+    <Container>
+      <div class="ui relaxed divided list">
+      {messages.map( ({user, id, content}) => (
+        <div class="item" key={id}>
+          <i class="large github middle aligned icon"></i>
+          <div class="content">
+            <a class="header" href="/user">{user}</a>
+            <div class="description">{content.text}</div>
+          </div>
         </div>
+      ))}
       </div>
-    ))}
-    </div>
+    </Container>
   );
 }
 
@@ -107,17 +114,16 @@ class Channel extends React.Component {
   // https://atomizedobjects.com/blog/react/add-event-listener-react-hooks/
   render() {
     return (
-      <div>
+      <Container>
         <h2 class="ui header">
           <i class="settings icon"></i>
           <div class="content">
-            channel: {this.channelId}
-            <div class="sub header">user: {this.state.user}</div>
+            <div class="sub header">user-id: {this.state.user}</div>
           </div>
         </h2>
         <ChatHistory channelId={this.channelId} messages={this.state.messages} />
         <TextMessageInput user={this.state.user} channelId={this.channelId} />
-      </div>
+      </Container>
     );
 
   }

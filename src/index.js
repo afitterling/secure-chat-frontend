@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { v4 as uuidv4 } from 'uuid';
 import * as serviceWorker from './serviceWorker';
 import {
   BrowserRouter as Router,
@@ -8,6 +9,7 @@ import {
   Route,
 } from "react-router-dom";
 import Channel from './channel';
+import { Container } from 'semantic-ui-react'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -44,7 +46,20 @@ export default function App() {
 }
 
 function Home() {
-  return <h2>Home</h2>;
+  const style={
+  }
+  const onClick = () => {
+    window.location.href = `/channel/` + uuidv4();
+  }
+  return (
+    <Container style={style}>
+      <h2>Secure Chat</h2>
+      <div class="ui twitter button" onClick={onClick}>
+        <i class="sign in alternate icon"></i>
+          Create Secure Channel
+      </div>
+    </Container>
+  );
 }
 
 function About() {
