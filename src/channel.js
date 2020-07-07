@@ -38,7 +38,6 @@ function TextMessageInput(probs) {
   }
 
   const message = (async (channel_id, msg) => {
-    console.log(channel_id);
     const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}`, {
       method: 'POST',
       headers: {
@@ -96,9 +95,7 @@ class Channel extends React.Component {
   constructor(props) {
     super(props);
     this.channelId = this.props.match.params.channelId;
-    this.source = new EventSource(`${API_URL}v1/channel/${this.channelId}`, {
-      withCredentials: true
-    });
+
     this.state = {
       messages: [],
       user: uuidv4()
@@ -111,11 +108,22 @@ class Channel extends React.Component {
   }
 
   componentDidMount() {
-    //this.setState(this.state);
+    this.source = new EventSource(`${API_URL}v1/channel/${this.channelId}`, {
+      withCredentials: true
+    });
     this.source.addEventListener('message', this.onMessage);
+    this.cancel = setInterval(()=>{
+      console.log('resubscribe');
+      this.source.removeEventListener('message', this.onMessage);
+      this.source = new EventSource(`${API_URL}v1/channel/${this.channelId}`, {
+        withCredentials: true
+      });  
+      this.source.addEventListener('message', this.onMessage);
+    }, 5000);
   }
 
   componentWillUnmount() {
+    clearInterval(this.cancel);
     this.source.removeEventListener('message', this.onMessage);
   }
 
