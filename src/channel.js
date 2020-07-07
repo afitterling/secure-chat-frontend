@@ -15,7 +15,7 @@ import { Label } from 'semantic-ui-react'
 
 function TextMessageInput(probs) {
 
-  const { user, channelId } = probs;
+  const { user, channelId, avatarUrl } = probs;
   const [inputMessage, setInputMessage] = useState('');
 
   onchange = (event) => {
@@ -29,6 +29,7 @@ function TextMessageInput(probs) {
       message(channelId, {
         id: uuidv4(),
         user: user,
+        avatarUrl: avatarUrl,
         content: textContent
       }).then(() => {
         setInputMessage('');
@@ -72,12 +73,14 @@ function ChatHistory(probs) {
   return (
     <Container>
       <div class="ui relaxed divided list" style={style}>
-      {messages.map( ({user, id, content}) => (
+      {messages.map( ({user, id, content, avatarUrl}) => (
         <div class="item" key={id}>
-          <i class="large github middle aligned icon"></i>
+          <img alt="avatar" class="ui avatar image" src={avatarUrl} />
           <div class="content">
-            <span class="header"><span>user</span> {user}</span>
-            <div class="description">{content.text}</div>
+            <a class="header" href="/user">{user}</a>
+            <div class="description">
+              {content.text}
+            </div>
           </div>
         </div>
       ))}
@@ -117,12 +120,17 @@ class Channel extends React.Component {
   }
 
   shuffle(array) {
-    let counter = array.length;
-    return array[Math.floor(Math.random() * counter)];
+    const counter = array.length;
+    const index = Math.floor(Math.random() * counter);
+    return array[index];
   }
 
-  avatars = ['stevie', 'ellior', 'joe'];
-  avatarUrl = `https://react.semantic-ui.com/images/avatar/small/${this.shuffle(this.avatars)}.jpg`;
+  avatarsUrl(pickFn){
+    const avatars = ['stevie', 'elliot', 'joe', 'zoe', 'nan', 'helen', 'veronika'];
+    return `https://react.semantic-ui.com/images/avatar/small/${pickFn(avatars)}.jpg`;
+  }
+
+  userAvatarUrl = this.avatarsUrl(this.shuffle);
 
   render() {    
     return (
@@ -133,14 +141,14 @@ class Channel extends React.Component {
               Secure Channel
               <div class="sub header">
                 <Label image>
-                  <img alt="avatar" src={this.avatarUrl} />
+                  <img alt="avatar" src={this.userAvatarUrl} />
                   {this.state.user}
                 </Label>
                 </div>
             </div>
           </h2>
-          <ChatHistory channelId={this.channelId} messages={this.state.messages} />
-          <TextMessageInput user={this.state.user} channelId={this.channelId} />
+          <ChatHistory channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
+          <TextMessageInput user={this.state.user} avatarUrl={this.userAvatarUrl} channelId={this.channelId} />
         </Container>
     );
 
