@@ -71,7 +71,7 @@ function ChatHistory(probs) {
         <div class="item" key={id}>
           <i class="large github middle aligned icon"></i>
           <div class="content">
-            <a class="header" href="/user">{user}</a>
+            <span class="header"><span>user</span> {user}</span>
             <div class="description">{content.text}</div>
           </div>
         </div>
@@ -114,16 +114,16 @@ class Channel extends React.Component {
   // https://atomizedobjects.com/blog/react/add-event-listener-react-hooks/
   render() {
     return (
-      <Container>
-        <h2 class="ui header">
-          <i class="settings icon"></i>
-          <div class="content">
-            <div class="sub header">user-id: {this.state.user}</div>
-          </div>
-        </h2>
-        <ChatHistory channelId={this.channelId} messages={this.state.messages} />
-        <TextMessageInput user={this.state.user} channelId={this.channelId} />
-      </Container>
+        <Container>
+          <h2 class="ui header">
+            <i class="settings icon"></i>
+            <div class="content">
+              <div class="sub header">user-id: {this.state.user}</div>
+            </div>
+          </h2>
+          <ChatHistory channelId={this.channelId} messages={this.state.messages} />
+          <TextMessageInput user={this.state.user} channelId={this.channelId} />
+        </Container>
     );
 
   }
