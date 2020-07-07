@@ -10,6 +10,8 @@ import {
 import { Input } from 'semantic-ui-react'
 import { v4 as uuidv4 } from 'uuid';
 import { Container } from 'semantic-ui-react'
+import ModalModalExample from './modal';
+import { Label } from 'semantic-ui-react'
 
 function TextMessageInput(probs) {
 
@@ -114,14 +116,27 @@ class Channel extends React.Component {
     this.source.removeEventListener('message', this.onMessage);
   }
 
-  // https://atomizedobjects.com/blog/react/add-event-listener-react-hooks/
-  render() {
+  shuffle(array) {
+    let counter = array.length;
+    return array[Math.floor(Math.random() * counter)];
+  }
+
+  avatars = ['stevie', 'ellior', 'joe'];
+  avatarUrl = `https://react.semantic-ui.com/images/avatar/small/${this.shuffle(this.avatars)}.jpg`;
+
+  render() {    
     return (
         <Container>
           <h2 class="ui header">
-            <i class="settings icon"></i>
+            <ModalModalExample></ModalModalExample>
             <div class="content">
-              <div class="sub header">user-id: {this.state.user}</div>
+              Secure Channel
+              <div class="sub header">
+                <Label image>
+                  <img alt="avatar" src={this.avatarUrl} />
+                  {this.state.user}
+                </Label>
+                </div>
             </div>
           </h2>
           <ChatHistory channelId={this.channelId} messages={this.state.messages} />
