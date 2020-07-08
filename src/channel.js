@@ -125,6 +125,7 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
 
   const handleKeyPress = async (event) => {
     if (event.key === 'Enter') {
+      if (event.target.value === '') return;
       const textContent = { text: event.target.value };
       console.log('channel:', channelId, 'content:', textContent);
       const r = await message(channelId, {
