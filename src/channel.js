@@ -96,6 +96,9 @@ function StatusBar({ settings: { subscribers, encryption } }) {
         <span><b>TTL</b> <em>24h</em></span>
       </div>
       <div class="ui message">
+        <div class="header">Encryption Overview</div>
+      </div>
+      <div class="ui message">
         <div class="header"><em>legend</em></div>
         <span><i class="user secret icon"></i> how many listeners in sum detected (including old connections and spies)</span><br />
         <span><i class="database icon"></i> <em>on</em>: in memory (RAM) persistency. <em>off</em>: no persistency at all (old messages are lost)</span><br />
