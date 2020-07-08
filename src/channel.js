@@ -17,7 +17,7 @@ class Channel extends React.Component {
 
   constructor(props) {
     super(props);
-    
+
     this.channelId = this.props.match.params.channelId;
 
     this.state = {
@@ -27,14 +27,14 @@ class Channel extends React.Component {
         subscribers: 0
       }
     };
-    
+
     this.userAvatarUrl = avatarsUrl(shuffle);
   }
 
-  onSettingsTransmit = ({subscribers}) => {
+  onSettingsTransmit = ({ subscribers }) => {
     //
     console.log('subscribers', subscribers);
-    this.setState({...this.state, settings: {...this.state.settings, subscribers: subscribers} });
+    this.setState({ ...this.state, settings: { ...this.state.settings, subscribers: subscribers } });
   }
 
   onMessage = (e) => {
@@ -47,7 +47,7 @@ class Channel extends React.Component {
       withCredentials: true
     });
     this.source.addEventListener('message', this.onMessage);
-    this.cancel = setInterval(()=>{
+    this.cancel = setInterval(() => {
       console.log('resubscribe');
       this.source.removeEventListener('message', this.onMessage);
       this.source.addEventListener('message', this.onMessage);
@@ -59,40 +59,47 @@ class Channel extends React.Component {
     this.source.removeEventListener('message', this.onMessage);
   }
 
-  render() {    
+  render() {
     return (
-        <Container>
-          <h2 class="ui header">
-            <ModalModalExample></ModalModalExample>
-            <div class="content">
-              Secure Channel
+      <Container>
+        <h2 class="ui header">
+          <ModalModalExample></ModalModalExample>
+          <div class="content">
+            Secure Channel
               <div class="sub header">
-                <Label image>
-                  <img alt="avatar" src={this.userAvatarUrl} />
-                  {this.state.user}
-                </Label>
-                </div>
+              <Label image>
+                <img alt="avatar" src={this.userAvatarUrl} />
+                {this.state.user}
+              </Label>
             </div>
-          </h2>
-          <StatusBar settings={this.state.settings}></StatusBar>
-          <ChatHistory channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
-          <TextMessageInput user={this.state.user}
-            onSettingsTransmit={this.onSettingsTransmit} avatarUrl={this.userAvatarUrl} channelId={this.channelId} />
-        </Container>
+          </div>
+        </h2>
+        <StatusBar settings={this.state.settings}></StatusBar>
+        <ChatHistory channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
+        <TextMessageInput user={this.state.user}
+          onSettingsTransmit={this.onSettingsTransmit} avatarUrl={this.userAvatarUrl} channelId={this.channelId} />
+      </Container>
     );
   }
 }
 
-function StatusBar({settings: {subscribers, encryption}}){
+function StatusBar({ settings: { subscribers, encryption } }) {
   encryption = false
   const style = {}
   return (
     <Container class="ui label" style={style}>
       <div class="ui message">
         <div class="header"></div>
-        <span><i class="user secret icon"></i>{subscribers}</span>&nbsp; 
-        <span><i class={ encryption ? 'lock icon' : 'unlock icon'}></i></span>
-        <span><i class={ 'database icon'}></i> off</span>
+        <span><i class="user secret icon"></i><em>{subscribers}</em></span>&nbsp;
+        <span><i class={encryption ? 'lock icon' : 'unlock icon'}></i></span>
+        <span><i class={'database icon'}></i> <em>off</em></span> &nbsp;
+        <span><b>TTL</b> <em>24h</em></span>
+        <br />
+        <span><i class="user secret icon"></i> how many listeners in sum detected (including old connections and spies)</span><br />
+        <span><i class="database icon"></i> <em>on</em>: in memory (RAM) persistency. <em>off</em>: no persistency at all (old messages are lost)</span><br />
+        <span><i class="lock icon"></i> <em>locked</em>: strongest E2E-PKI encryption (client side & service's node's side). <em>unlocked</em>: SSL/TLS (messaging queue clear text, warning if in memory persistency is enable message live as slong as TTL defined)</span><br />
+        <span><b>TTL</b>: time to live (TTL) for each message on the db node's cluster until erased in memory<br /></span>&nbsp;
+        <span><b>Warning</b>: you're dealing with a mesh grid network (server-less), container services and even whole nodes are re-deploy any given minutes to achieve a maximum secure environment (at zero down time). If you would encounter problems on client side try reload to re-establish a new connection.</span>
       </div>
     </Container>
   );
@@ -119,12 +126,12 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
         user: user,
         avatarUrl: avatarUrl,
         content: textContent
-      }).then((r)=>{
+      }).then((r) => {
         setInputMessage('');
         return r;
       });
-      console.log('response = ',r);
-      onSettingsTransmit({subscribers: r.nsubs});
+      console.log('response = ', r);
+      onSettingsTransmit({ subscribers: r.nsubs });
     }
   }
 
@@ -136,25 +143,25 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
 
 }
 
-function ChatHistory({messages}) {
-  const style={
+function ChatHistory({ messages }) {
+  const style = {
     paddingBottom: '0.8rem',
     marginTop: '1.0rem'
   }
   return (
     <Container style={style}>
       <div class="ui relaxed divided list">
-      {messages.map( ({user, id, content, avatarUrl}) => (
-        <div class="item" key={id}>
-          <img alt="avatar" class="ui avatar image" src={avatarUrl} />
-          <div class="content">
-            <a class="header" href="/user">{user}</a>
-            <div class="description">
-              {content.text}
+        {messages.map(({ user, id, content, avatarUrl }) => (
+          <div class="item" key={id}>
+            <img alt="avatar" class="ui avatar image" src={avatarUrl} />
+            <div class="content">
+              <a class="header" href="/user">{user}</a>
+              <div class="description">
+                {content.text}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
       </div>
     </Container>
   );
