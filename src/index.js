@@ -53,11 +53,20 @@ function Home() {
   }
   return (
     <Container style={style}>
-      <h2>Secure Chat</h2>
-      <div class="ui twitter button" onClick={onClick}>
-        <i class="sign in alternate icon"></i>
-          Create Secure Channel
-      </div>
+      <h2 class="ui center aligned icon header">
+      <i class="circular users icon"></i>
+        Secure Messaging
+      </h2>
+      <div class="ui one column stackable center aligned page grid">
+   <div class="column twelve wide">
+   <p> Maximum effort to safe your own identity and freedom of speech!</p>
+        <div class="ui twitter button" onClick={onClick}>
+          <i class="sign in alternate icon"></i>
+            Create Channel
+        </div>
+
+   </div>
+</div>
     </Container>
   );
 }
