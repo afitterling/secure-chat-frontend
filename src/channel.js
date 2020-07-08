@@ -83,14 +83,16 @@ class Channel extends React.Component {
   }
 }
 
-function StatusBar({settings: {subscribers}}){
-  const style = {
-  }
+function StatusBar({settings: {subscribers, encryption}}){
+  encryption = false
+  const style = {}
   return (
     <Container class="ui label" style={style}>
       <div class="ui message">
         <div class="header"></div>
-        <span><i class="mail icon"></i>{subscribers}</span>
+        <span><i class="user secret icon"></i>{subscribers}</span>&nbsp; 
+        <span><i class={ encryption ? 'lock icon' : 'unlock icon'}></i></span>
+        <span><i class={ 'database icon'}></i> off</span>
       </div>
     </Container>
   );
