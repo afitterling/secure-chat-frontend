@@ -7,7 +7,6 @@ import {
 import {
   useState,
 } from 'react';
-import { Input } from 'semantic-ui-react'
 import { v4 as uuidv4 } from 'uuid';
 import { Container } from 'semantic-ui-react'
 import ModalModalExample from './modal';
@@ -116,9 +115,9 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
   const [inputMessage, setInputMessage] = useState('');
  
   const style = {
-    width: '100%'
+    width: '100%',
+    marginBottom: '0.6rem'
   }
-  const style2 = { marginBottom: '0.6rem' }
 
   onchange = (event) => {
     setInputMessage(event.target.value);
@@ -143,9 +142,12 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
   }
 
   return (
-    <Container style={style}>
-      <Input focus style={style2} value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e) => { handleKeyPress(e) }} />
-    </Container>
+    <div class="ui action input" style={style}>
+      <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
+      <button class="ui icon button">
+        <i class="unlock icon"></i>
+      </button>
+    </div>
   );
 
 }
