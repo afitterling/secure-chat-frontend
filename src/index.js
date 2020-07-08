@@ -59,12 +59,12 @@ function Home() {
       </h2>
       <div class="ui one column stackable center aligned page grid">
    <div class="column twelve wide">
-   <p> Maximum effort to safe your own identity and freedom of speech!</p>
-        <div class="ui twitter button" onClick={onClick}>
+   <p> To safe your identity and freedom of speech!</p>
+        <div class="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
           <i class="sign in alternate icon"></i>
             Create Channel
         </div>
-
+    <p><span><a href="/about"><i class="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
    </div>
 </div>
     </Container>
