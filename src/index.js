@@ -65,6 +65,7 @@ function Home() {
             Create Channel
         </div>
     <p><span><a href="/about"><i class="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
+    <p><span><a href="https://sp33c.tech">Who am I?</a></span></p>
    </div>
 </div>
     </Container>
