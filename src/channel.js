@@ -24,7 +24,7 @@ class Channel extends React.Component {
       messages: [],
       user: uuidv4(),
       settings: {
-        subscribers: 0
+        subscribers: 'n/a'
       }
     };
 
