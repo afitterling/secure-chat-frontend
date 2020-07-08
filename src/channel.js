@@ -94,10 +94,12 @@ function StatusBar({ settings: { subscribers, encryption } }) {
         <span><i class={encryption ? 'lock icon' : 'unlock icon'}></i></span>
         <span><i class={'database icon'}></i> <em>off</em></span> &nbsp;
         <span><b>TTL</b> <em>24h</em></span>
-        <br />
+      </div>
+      <div class="ui message">
+        <div class="header"><em>legend</em></div>
         <span><i class="user secret icon"></i> how many listeners in sum detected (including old connections and spies)</span><br />
         <span><i class="database icon"></i> <em>on</em>: in memory (RAM) persistency. <em>off</em>: no persistency at all (old messages are lost)</span><br />
-        <span><i class="lock icon"></i> <em>locked</em>: strongest E2E-PKI encryption (client side & service's node's side). <em>unlocked</em>: SSL/TLS (messaging queue clear text, warning if in memory persistency is enable message live as slong as TTL defined)</span><br />
+        <span><i class="lock icon"></i> <em>locked</em>: strongest E2E-PKI encryption (client side & service's node's side). <em>unlocked</em>: SSL/TLS only (messaging queue clear text)</span><br />
         <span><b>TTL</b>: time to live (TTL) for each message on the db node's cluster until erased in memory</span><br/>
         {/* <span><b>Warning</b>: you're dealing with a servless mesh network across many nodes aka skynet. Services and even whole nodes are randomly and constantly re-deploy any given minutes to achieve a maximum secure environment (at zero down time). If you would encounter problems on client side try reload to re-establish a new connection.</span><br/> */}
         <span><a href="/about">See how it all works including the encryption following this link</a>.</span>
