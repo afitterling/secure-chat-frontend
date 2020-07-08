@@ -88,9 +88,8 @@ class Channel extends React.Component {
 
 function StatusBar({ settings: { subscribers, encryption } }) {
   encryption = false
-  const style = {}
   return (
-    <Container class="ui label" style={style}>
+    <Container class="ui label">
       <div class="ui message">
         <div class="header"></div>
         <span><i class="user secret icon"></i><em>{subscribers}</em></span>&nbsp;
@@ -115,10 +114,11 @@ function StatusBar({ settings: { subscribers, encryption } }) {
 function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
 
   const [inputMessage, setInputMessage] = useState('');
-
+ 
   const style = {
     width: '100%'
   }
+  const style2 = { marginBottom: '0.6rem' }
 
   onchange = (event) => {
     setInputMessage(event.target.value);
@@ -143,8 +143,8 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
   }
 
   return (
-    <Container>
-      <Input focus style={style} value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e) => { handleKeyPress(e) }} />
+    <Container style={style}>
+      <Input focus style={style2} value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e) => { handleKeyPress(e) }} />
     </Container>
   );
 
