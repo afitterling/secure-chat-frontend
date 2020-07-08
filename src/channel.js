@@ -91,7 +91,7 @@ function StatusBar({ settings: { subscribers, encryption } }) {
       <div class="ui message">
         <div class="header"></div>
         <span><i class="user secret icon"></i><em>{subscribers}</em></span>&nbsp;
-        <span><i class={encryption ? 'lock icon' : 'unlock icon'}></i></span>
+        <span><i style={{color: encryption ? 'green' : 'red'}} className={encryption ? 'lock icon' : 'unlock icon'}></i></span>
         <span><i class={'database icon'}></i> <em>off</em></span> &nbsp;
         <span><b>TTL</b> <em>24h</em></span>
       </div>
