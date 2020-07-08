@@ -13,93 +13,28 @@ import { Container } from 'semantic-ui-react'
 import ModalModalExample from './modal';
 import { Label } from 'semantic-ui-react'
 
-function TextMessageInput(probs) {
-
-  const { user, channelId, avatarUrl } = probs;
-  const [inputMessage, setInputMessage] = useState('');
-
-  onchange = (event) => {
-    setInputMessage(event.target.value);
-  }
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      const textContent = { text: event.target.value };
-      console.log('channel:', channelId, 'content:', textContent);
-      message(channelId, {
-        id: uuidv4(),
-        user: user,
-        avatarUrl: avatarUrl,
-        content: textContent
-      }).then(() => {
-        setInputMessage('');
-      });
-    }
-  }
-
-  const message = (async (channel_id, msg) => {
-    const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ message: msg })
-    });
-    const content = await rawResponse.json();
-    console.log(content);
-  });
-
-  const style = {
-    width: '100%'
-  }
-
-  return (
-    <Container>
-      <Input focus style={style} value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e) => { handleKeyPress(e) }} />
-      {/* <button class="ui primary button">Hit Enter</button> */}
-    </Container>
-  );
-
-}
-
-
-function ChatHistory(probs) {
-  const { messages } = probs;
-  console.log('messages', messages);
-  const style={
-    paddingBottom: "0.8rem"
-  }
-  return (
-    <Container>
-      <div class="ui relaxed divided list" style={style}>
-      {messages.map( ({user, id, content, avatarUrl}) => (
-        <div class="item" key={id}>
-          <img alt="avatar" class="ui avatar image" src={avatarUrl} />
-          <div class="content">
-            <a class="header" href="/user">{user}</a>
-            <div class="description">
-              {content.text}
-            </div>
-          </div>
-        </div>
-      ))}
-      </div>
-    </Container>
-  );
-}
-
-
-
 class Channel extends React.Component {
 
   constructor(props) {
     super(props);
+    
     this.channelId = this.props.match.params.channelId;
 
     this.state = {
       messages: [],
-      user: uuidv4()
+      user: uuidv4(),
+      settings: {
+        subscribers: 0
+      }
     };
+    
+    this.userAvatarUrl = avatarsUrl(shuffle);
+  }
+
+  onSettingsTransmit = ({subscribers}) => {
+    //
+    console.log('subscribers', subscribers);
+    this.setState({...this.state, settings: {...this.state.settings, subscribers: subscribers} });
   }
 
   onMessage = (e) => {
@@ -124,19 +59,6 @@ class Channel extends React.Component {
     this.source.removeEventListener('message', this.onMessage);
   }
 
-  shuffle(array) {
-    const counter = array.length;
-    const index = Math.floor(Math.random() * counter);
-    return array[index];
-  }
-
-  avatarsUrl(pickFn){
-    const avatars = ['stevie', 'elliot', 'joe', 'zoe', 'nan', 'helen', 'veronika'];
-    return `https://react.semantic-ui.com/images/avatar/small/${pickFn(avatars)}.jpg`;
-  }
-
-  userAvatarUrl = this.avatarsUrl(this.shuffle);
-
   render() {    
     return (
         <Container>
@@ -152,13 +74,113 @@ class Channel extends React.Component {
                 </div>
             </div>
           </h2>
+          <StatusBar settings={this.state.settings}></StatusBar>
           <ChatHistory channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
-          <TextMessageInput user={this.state.user} avatarUrl={this.userAvatarUrl} channelId={this.channelId} />
+          <TextMessageInput user={this.state.user}
+            onSettingsTransmit={this.onSettingsTransmit} avatarUrl={this.userAvatarUrl} channelId={this.channelId} />
         </Container>
     );
+  }
+}
 
+function StatusBar({settings: {subscribers}}){
+  const style = {
+  }
+  return (
+    <Container class="ui label" style={style}>
+      <div class="ui message">
+        <div class="header"></div>
+        <span><i class="mail icon"></i>{subscribers}</span>
+      </div>
+    </Container>
+  );
+}
+
+function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
+
+  const [inputMessage, setInputMessage] = useState('');
+
+  const style = {
+    width: '100%'
   }
 
+  onchange = (event) => {
+    setInputMessage(event.target.value);
+  }
+
+  const handleKeyPress = async (event) => {
+    if (event.key === 'Enter') {
+      const textContent = { text: event.target.value };
+      console.log('channel:', channelId, 'content:', textContent);
+      const r = await message(channelId, {
+        id: uuidv4(),
+        user: user,
+        avatarUrl: avatarUrl,
+        content: textContent
+      }).then((r)=>{
+        setInputMessage('');
+        return r;
+      });
+      console.log('response = ',r);
+      onSettingsTransmit({subscribers: r.nsubs});
+    }
+  }
+
+  return (
+    <Container>
+      <Input focus style={style} value={inputMessage} onChange={onchange} placeholder='Message...' onKeyPress={(e) => { handleKeyPress(e) }} />
+    </Container>
+  );
+
 }
+
+function ChatHistory({messages}) {
+  const style={
+    paddingBottom: '0.8rem',
+    marginTop: '1.0rem'
+  }
+  return (
+    <Container style={style}>
+      <div class="ui relaxed divided list">
+      {messages.map( ({user, id, content, avatarUrl}) => (
+        <div class="item" key={id}>
+          <img alt="avatar" class="ui avatar image" src={avatarUrl} />
+          <div class="content">
+            <a class="header" href="/user">{user}</a>
+            <div class="description">
+              {content.text}
+            </div>
+          </div>
+        </div>
+      ))}
+      </div>
+    </Container>
+  );
+}
+
+// helpers
+
+const shuffle = (array) => {
+  const counter = array.length;
+  const index = Math.floor(Math.random() * counter);
+  return array[index];
+}
+
+const avatarsUrl = (pickFn) => {
+  const avatars = ['stevie', 'elliot', 'joe', 'zoe', 'nan', 'helen', 'veronika'];
+  return `https://react.semantic-ui.com/images/avatar/small/${pickFn(avatars)}.jpg`;
+}
+
+const message = async (channel_id, msg) => {
+  const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ message: msg })
+  });
+  const content = await rawResponse.json();
+  return content;
+};
 
 export default withRouter(Channel);
