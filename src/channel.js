@@ -162,7 +162,7 @@ function ChatHistory({ messages }) {
           <div class="item" key={id}>
             <img alt="avatar" class="ui avatar image" src={avatarUrl} />
             <div class="content">
-              <a class="header" href="/user">{user}</a>
+              <span class="header" href="/user">{user}</span>
               <div class="description">
                 {content.text}
               </div>
