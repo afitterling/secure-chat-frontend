@@ -76,6 +76,9 @@ class Channel extends React.Component {
         </h2>
         <StatusBar settings={this.state.settings}></StatusBar>
         <ChatHistory channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
+        <div class="ui message">
+          <div style={{color: 'grey'}} class="header">Encryption Overview</div>
+        </div>
         <TextMessageInput user={this.state.user}
           onSettingsTransmit={this.onSettingsTransmit} avatarUrl={this.userAvatarUrl} channelId={this.channelId} />
       </Container>
@@ -94,9 +97,6 @@ function StatusBar({ settings: { subscribers, encryption } }) {
         <span><i style={{color: encryption ? 'green' : 'red'}} className={encryption ? 'lock icon' : 'unlock icon'}></i></span>
         <span><i class={'database icon'}></i> <em>off</em></span> &nbsp;
         <span><b>TTL</b> <em>24h</em></span>
-      </div>
-      <div class="ui message">
-        <div class="header">Encryption Overview</div>
       </div>
       <div class="ui message">
         <div class="header"><em>legend</em></div>
