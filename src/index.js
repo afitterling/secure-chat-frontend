@@ -59,7 +59,7 @@ function Home() {
       </h2>
       <div class="ui one column stackable center aligned page grid">
    <div class="column twelve wide">
-   <p> To safe your identity and freedom of speech!</p>
+   <p> To save your identity and freedom of speech!</p>
         <div class="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
           <i class="sign in alternate icon"></i>
             Create Channel
