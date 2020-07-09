@@ -10,7 +10,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { Container } from 'semantic-ui-react'
 import ModalModalExample from '../modal';
 import { Label } from 'semantic-ui-react'
-import { postMessage, fetchMessages } from '../services/messages';
+import { 
+  postMessage,
+  //fetchMessages
+ } from '../services/messages';
 
 class Channel extends React.Component {
 
@@ -51,9 +54,8 @@ class Channel extends React.Component {
       this.source.removeEventListener('message', this.onMessage);
       this.source.addEventListener('message', this.onMessage);
     }, 8000);
-    console.log('sdfsdf', this.channelId);
-    const respond = await fetchMessages(this.channelId);
-    this.setState({messages: respond.messages});
+    //const respond = await fetchMessages(this.channelId);
+    //this.setState({messages: respond.messages});
   }
 
   componentWillUnmount() {
