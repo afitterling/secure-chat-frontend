@@ -192,7 +192,7 @@ function ChatHistory({ messages }) {
         new Date(time* 1000).toLocaleString()
         }</Comment.Metadata></Comment.Author>
               <Comment.Text>
-                { persistency ? '' : <i class="icon microphone slash">transiant</i> }
+                { persistency ? '' : <i class="icon microphone slash"></i> }
                 { encrypted ? '<i class="green icon lock"></i>' : <i class="grey icon unlock"></i> }
                 {content.text}
               </Comment.Text>
