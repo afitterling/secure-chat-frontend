@@ -7,14 +7,13 @@ import {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Header, Label, Icon, Container } from 'semantic-ui-react'
-//import ModalModalExample from '../modal';
-//import { Label } from 'semantic-ui-react'
-import { 
+import { Comment, Header, Label, Icon, Container } from 'semantic-ui-react'
+import ModalSettings from '../modal';
+import {
   postMessage,
   fetchMessages
- } from '../services/messages';
- import { MEDIUM_ARTICLE } from '../settings';
+} from '../services/messages';
+import { MEDIUM_ARTICLE } from '../settings';
 
 class Channel extends React.Component {
 
@@ -68,7 +67,7 @@ class Channel extends React.Component {
       this.source.addEventListener('message', this.onMessage);
     }, 8000);
     const respond = await fetchMessages(this.channelId);
-    this.setState({messages: respond.messages});
+    this.setState({ messages: respond.messages });
   }
 
   componentWillUnmount() {
@@ -84,17 +83,14 @@ class Channel extends React.Component {
           <Header.Content>
             Secure Chat
             <Header.Subheader>
-              <Label image>
-              <img alt="avatar" src={this.userAvatarUrl} />
-                {this.state.user}
-              </Label>
+              Protected against Privacy
             </Header.Subheader>
           </Header.Content>
         </Header>
         <StatusBar settings={this.state.settings}></StatusBar>
         <ChatHistory channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
         <div class="ui message">
-          <div style={{color: 'grey'}} class="header">Encryption Overview</div>
+          <div style={{ color: 'grey' }} class="header">Encryption Overview</div>
         </div>
         <TextMessageInput user={this.state.user}
           onSettingsTransmit={this.onSettingsTransmit} avatarUrl={this.userAvatarUrl} channelId={this.channelId} />
@@ -111,7 +107,7 @@ function StatusBar({ settings: { subscribers, encryption } }) {
         <div class="header"></div>
         <span><i class="user secret icon"></i><em>{subscribers}</em></span>&nbsp;
         {/* <span><i style={{color: encryption ? 'green' : 'red'}} className={encryption ? 'lock icon' : 'unlock icon'}></i></span> */}
-{/*         <span><i class={'database icon'}></i> <em>on/off</em></span> &nbsp;
+        {/*         <span><i class={'database icon'}></i> <em>on/off</em></span> &nbsp;
         <span><b>TTL</b> <em>24h</em></span>
  */}      </div>
       <div class="ui message">
@@ -132,7 +128,7 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
 
   const [inputMessage, setInputMessage] = useState('');
   const [persistency, setPersistence] = useState(true);
- 
+
   const style = {
     width: '100%',
     marginBottom: '0.6rem'
@@ -162,19 +158,20 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     }
   }
 
-  function onPersistency(){
+  function onPersistency() {
     setPersistence(!persistency);
   }
 
   return (
     <div class="ui action input" style={style}>
-      <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
       <button class="ui icon button" onClick={onPersistency}>
-        <i class="database icon" style={{'color': persistency ? 'black': 'grey'}}></i>
+        <i class="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
       </button>
       <button class="ui icon button">
         <i class="unlock icon"></i>
       </button>
+      <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
+      <ModalSettings></ModalSettings>
     </div>
   );
 
@@ -187,26 +184,22 @@ function ChatHistory({ messages }) {
   }
   return (
     <Container style={style}>
-      <div class="ui relaxed divided list">
+      <Comment.Group>
         {messages.map(({ user, id, content, avatarUrl, persistency }) => (
-          <div class="item" key={id}>
-            <img alt="avatar" class="ui avatar image" src={avatarUrl} />
-            <div class="content">
-              <span class="header" href="/user">
-                <i class="unlock icon"></i>{user}
-                </span>
-              <div class="description">
-                { 
-                  (<span>
-                    {persistency === 1 ? '' : <i class="icon microphone slash red"></i>}
-                    {content.text}
-                    </span>)
-                }
-              </div>
-            </div>
-          </div>
+          <Comment>
+            <Comment.Avatar as='a' src={avatarUrl} />
+            <Comment.Content>
+              <Comment.Author>{user}<Comment.Metadata>date time</Comment.Metadata></Comment.Author>
+              <Comment.Text>
+                {content.text}
+              </Comment.Text>
+              <Comment.Actions>
+                <Comment.Action>Reply</Comment.Action>
+              </Comment.Actions>
+            </Comment.Content>
+          </Comment>
         ))}
-      </div>
+      </Comment.Group>
     </Container>
   );
 }
@@ -220,7 +213,7 @@ const shuffle = (array) => {
 }
 
 const avatarsUrl = (pickFn) => {
-  const avatars = ['stevie', 'elliot', 'joe', 'zoe', 'nan', 'helen', 'veronika'];
+  const avatars = ['stevie', 'elliot', 'joe', 'zoe', 'nan', 'helen', 'veronika', 'christian', 'daniel'];
   return `https://react.semantic-ui.com/images/avatar/small/${pickFn(avatars)}.jpg`;
 }
 

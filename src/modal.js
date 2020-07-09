@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Modal } from 'semantic-ui-react'
 
-const ModalModalExample = () => (
+const ModalSettings = () => (
   <Modal trigger={<Button><i className="icon settings"/></Button>}>
     <Modal.Header><span><i className="icon settings"></i></span>Settings</Modal.Header>
     <Modal.Content>
@@ -11,4 +11,4 @@ const ModalModalExample = () => (
   </Modal>
 )
 
-export default ModalModalExample
+export default ModalSettings
