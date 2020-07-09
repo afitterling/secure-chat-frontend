@@ -89,10 +89,9 @@ class Channel extends React.Component {
         </Header>
         <StatusBar settings={this.state.settings}></StatusBar>
         <ChatHistory channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
-        <div class="ui message">
-          <div style={{ color: 'grey' }} class="header">Encryption Overview</div>
+{/*         <div class="ui warning message">
         </div>
-        <TextMessageInput user={this.state.user}
+ */}        <TextMessageInput user={this.state.user}
           onSettingsTransmit={this.onSettingsTransmit} avatarUrl={this.userAvatarUrl} channelId={this.channelId} />
       </Container>
     );
@@ -111,7 +110,7 @@ function StatusBar({ settings: { subscribers, encryption } }) {
         <span><b>TTL</b> <em>24h</em></span>
  */}      </div>
       <div class="ui message">
-        <div class="header"><em>legend</em></div>
+        <div class="header">Explanation</div>
         <span><i class="user secret icon"></i> how many listeners (spies and old connections included)</span><br />
         <span><i class="database icon"></i> <em>on</em>: server / node side in-memory persistency <em>off</em>: no persistency - messages are transitional</span><br />
         <span><i class="lock icon"></i> <em>locked</em>: end to end encryption (PKI) on client and service's node's side.</span><br />
