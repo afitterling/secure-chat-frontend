@@ -1,5 +1,4 @@
 import React from 'react';
-//import './index.css';
 import { withRouter } from "react-router";
 import {
   API_URL
@@ -11,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Container } from 'semantic-ui-react'
 import ModalModalExample from '../modal';
 import { Label } from 'semantic-ui-react'
-import { postMessage } from '../services/messages';
+import { postMessage, fetchMessages } from '../services/messages';
 
 class Channel extends React.Component {
 
@@ -42,7 +41,7 @@ class Channel extends React.Component {
     this.setState({ messages: [...this.state.messages, js] });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.source = new EventSource(`${API_URL}v1/channel/${this.channelId}`, {
       withCredentials: true
     });
@@ -52,6 +51,9 @@ class Channel extends React.Component {
       this.source.removeEventListener('message', this.onMessage);
       this.source.addEventListener('message', this.onMessage);
     }, 8000);
+    console.log('sdfsdf', this.channelId);
+    const respond = await fetchMessages(this.channelId);
+    this.setState({messages: respond.messages});
   }
 
   componentWillUnmount() {
