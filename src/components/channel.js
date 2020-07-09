@@ -184,7 +184,7 @@ function ChatHistory({ messages }) {
   return (
     <Container style={style}>
       <Comment.Group>
-        {messages.map(({ user, id, content, avatarUrl, persistency, time }) => (
+        {messages.map(({ user, encrypted, content, avatarUrl, persistency, time }) => (
           <Comment>
             <Comment.Avatar as='a' src={avatarUrl} />
             <Comment.Content>
@@ -192,8 +192,8 @@ function ChatHistory({ messages }) {
         new Date(time* 1000).toLocaleString()
         }</Comment.Metadata></Comment.Author>
               <Comment.Text>
-                { persistency ? '' : <i class="icon microphone slash"></i>}
-                {<i class="icon unlock"></i>}
+                { persistency ? '' : <i class="icon microphone slash">transiant</i> }
+                { encrypted ? '<i class="green icon lock"></i>' : <i class="grey icon unlock"></i> }
                 {content.text}
               </Comment.Text>
               <Comment.Actions>
