@@ -30,11 +30,18 @@ class Channel extends React.Component {
       }
     };
 
-    this.userAvatarUrl = avatarsUrl(shuffle);
+    this.userAvatarUrl = this.getOrCreateAvatar();
+  }
+
+  getOrCreateAvatar() {
+    const avatarUrl = localStorage.getItem('avatarUrl') || avatarsUrl(shuffle);
+    localStorage.setItem('avatarUrl', avatarUrl);
+    return avatarUrl;
   }
 
   getOrCreateUUID() {
-    const uuid = uuidv4();
+    const uuid = localStorage.getItem('user') || uuidv4();
+    localStorage.setItem('user', uuid);
     return uuid;
   }
 
@@ -50,7 +57,7 @@ class Channel extends React.Component {
   }
 
   async componentDidMount() {
-    this.source = new EventSource(`${API_URL}v1/channel/${this.channelId}`, {
+    this.source = new EventSource(`${API_URL}v1/channel/${this.channelId}/listen?user=${this.state.user}`, {
       withCredentials: true
     });
     this.source.addEventListener('message', this.onMessage);

@@ -7,7 +7,7 @@ const headers = {
   };
 
 export const postMessage = async (channel_id, msg) => {
-    const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}`, {
+    const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}/messages`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({ message: msg })
