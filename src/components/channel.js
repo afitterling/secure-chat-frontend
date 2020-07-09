@@ -56,18 +56,27 @@ class Channel extends React.Component {
     this.setState({ messages: [...this.state.messages, js] });
   }
 
-  async componentDidMount() {
+  eventSource() {
     this.source = new EventSource(`${API_URL}v1/channel/${this.channelId}/listen?user=${this.state.user}`, {
       withCredentials: true
     });
     this.source.addEventListener('message', this.onMessage);
+  }
+
+  closeEventSource(){
+    this.source.removeEventListener('message', this.onMessage);
+    this.source.close();
+  }
+
+  async componentDidMount() {
+    this.eventSource();
     this.cancel = setInterval(() => {
       console.log('resubscribe');
-      this.source.removeEventListener('message', this.onMessage);
-      this.source.addEventListener('message', this.onMessage);
-    }, 8000);
-    const respond = await fetchMessages(this.channelId);
-    this.setState({ messages: respond.messages });
+      this.closeEventSource();
+      this.eventSource();
+    }, 12000);
+    const data = await fetchMessages(this.channelId);
+    this.setState({ messages: data.messages });
   }
 
   componentWillUnmount() {
@@ -188,9 +197,9 @@ function ChatHistory({ messages }) {
           <Comment>
             <Comment.Avatar as='a' src={avatarUrl} />
             <Comment.Content>
-        <Comment.Author>{user}<Comment.Metadata>{
-        new Date(time* 1000).toLocaleString()
-        }</Comment.Metadata></Comment.Author>
+              <Comment.Author>{user}<Comment.Metadata>{
+              new Date(time* 1000).toLocaleString()
+              }</Comment.Metadata></Comment.Author>
               <Comment.Text>
                 { persistency ? '' : <i class="icon microphone slash"></i> }
                 { encrypted ? '<i class="green icon lock"></i>' : <i class="grey icon unlock"></i> }
