@@ -60,7 +60,7 @@ function Home() {
           <i class="sign in alternate icon"></i>
             Create Channel
         </div>
-    <p><span><a href="https://medium.com/@sp33c/secure-messaging-603b97621e3d"><i class="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
+    <p><span><a target="_blank" href="https://medium.com/@sp33c/secure-messaging-603b97621e3d"><i class="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
     <p><span><a href="https://sp33c.tech">Who am I?</a></span></p>
    </div>
 </div>
