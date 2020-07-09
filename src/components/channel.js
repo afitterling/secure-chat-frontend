@@ -83,7 +83,7 @@ class Channel extends React.Component {
           <Header.Content>
             Secure Chat
             <Header.Subheader>
-              Protected against Privacy
+              With Privacy in Mind
             </Header.Subheader>
           </Header.Content>
         </Header>
