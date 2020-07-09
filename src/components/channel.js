@@ -98,10 +98,10 @@ class Channel extends React.Component {
         </Header>
         <StatusBar settings={this.state.settings}></StatusBar>
         <ChatHistory channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
-{/*         <div class="ui warning message">
-        </div>
- */}        <TextMessageInput user={this.state.user}
-          onSettingsTransmit={this.onSettingsTransmit} avatarUrl={this.userAvatarUrl} channelId={this.channelId} />
+        <TextMessageInput user={this.state.user}
+          onSettingsTransmit={this.onSettingsTransmit}
+          avatarUrl={this.userAvatarUrl}
+          channelId={this.channelId} />
       </Container>
     );
   }
@@ -111,22 +111,17 @@ function StatusBar({ settings: { subscribers, encryption } }) {
   encryption = false
   return (
     <Container class="ui label">
-      <div class="ui message">
+{/*       <div class="ui message">
         <div class="header"></div>
         <span><i class="user secret icon"></i><em>{subscribers}</em></span>&nbsp;
-        {/* <span><i style={{color: encryption ? 'green' : 'red'}} className={encryption ? 'lock icon' : 'unlock icon'}></i></span> */}
-        {/*         <span><i class={'database icon'}></i> <em>on/off</em></span> &nbsp;
-        <span><b>TTL</b> <em>24h</em></span>
- */}      </div>
-      <div class="ui message">
-        <div class="header">Explanation</div>
+      </div>
+ */}      <div class="ui message">
+{/*         <div class="header">Explanation</div>
         <span><i class="user secret icon"></i> how many listeners (spies and old connections included)</span><br />
         <span><i class="database icon"></i> <em>on</em>: server / node side in-memory persistency <em>off</em>: no persistency - messages are transitional</span><br />
         <span><i class="lock icon"></i> <em>locked</em>: end to end encryption (PKI) on client and service's node's side.</span><br />
         <span><i class="unlock icon"></i> <em>unlocked</em>: SSL/TLS transportation encryption only; messages can be read by everyone.</span><br />
-        {/* <span><b>TTL</b>: (in case of in-memory persistency) time to live (TTL) for each message on the db node's cluster until erased</span><br/> */}
-        {/* <span><b>Warning</b>: you're dealing with a servless mesh network across many nodes aka skynet. Services and even whole nodes are randomly and constantly re-deploy any given minutes to achieve a maximum secure environment (at zero down time). If you would encounter problems on client side try reload to re-establish a new connection.</span><br/> */}
-        <span><a href={MEDIUM_ARTICLE}>See how it all works including the encryption following this link</a>.</span>
+ */}        <span><a href={MEDIUM_ARTICLE}>See how it all works</a>.</span>
       </div>
     </Container>
   );
