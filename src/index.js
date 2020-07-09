@@ -9,17 +9,15 @@ import {
   Route,
 } from "react-router-dom";
 import Channel from './components/channel';
-import { Container } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react';
+import { MEDIUM_ARTICLE } from './settings';
+
 ReactDOM.render(
   <React.StrictMode>
     <App className="App" />
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 
 export default function App() {
   return (
@@ -60,7 +58,7 @@ function Home() {
           <i class="sign in alternate icon"></i>
             Create Channel
         </div>
-    <p><span><a href="https://medium.com/@sp33c/secure-messaging-603b97621e3d"><i class="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
+    <p><span><a href={MEDIUM_ARTICLE}><i class="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
     <p><span><a href="https://sp33c.tech">Who am I?</a></span></p>
    </div>
 </div>
