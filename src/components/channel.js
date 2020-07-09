@@ -7,9 +7,9 @@ import {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Container } from 'semantic-ui-react'
-import ModalModalExample from '../modal';
-import { Label } from 'semantic-ui-react'
+import { Header, Label, Icon, Container } from 'semantic-ui-react'
+//import ModalModalExample from '../modal';
+//import { Label } from 'semantic-ui-react'
 import { 
   postMessage,
   fetchMessages
@@ -79,18 +79,18 @@ class Channel extends React.Component {
   render() {
     return (
       <Container>
-        <h2 class="ui header">
-          <ModalModalExample></ModalModalExample>
-          <div class="content">
-            Secure Channel
-              <div class="sub header">
+        <Header as='h2'>
+          <Icon name='circular users item' />
+          <Header.Content>
+            Secure Chat
+            <Header.Subheader>
               <Label image>
-                <img alt="avatar" src={this.userAvatarUrl} />
+              <img alt="avatar" src={this.userAvatarUrl} />
                 {this.state.user}
               </Label>
-            </div>
-          </div>
-        </h2>
+            </Header.Subheader>
+          </Header.Content>
+        </Header>
         <StatusBar settings={this.state.settings}></StatusBar>
         <ChatHistory channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
         <div class="ui message">
