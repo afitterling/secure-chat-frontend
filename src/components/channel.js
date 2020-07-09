@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Comment, Header, Label, Icon, Container } from 'semantic-ui-react'
+import { Comment, Header, Icon, Container } from 'semantic-ui-react'
 import ModalSettings from '../modal';
 import {
   postMessage,
