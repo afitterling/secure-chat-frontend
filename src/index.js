@@ -10,7 +10,6 @@ import {
 } from "react-router-dom";
 import Channel from './components/channel';
 import { Container } from 'semantic-ui-react'
-
 ReactDOM.render(
   <React.StrictMode>
     <App className="App" />
@@ -30,9 +29,6 @@ export default function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
           <Route path="/channel/:channelId">
             <Channel />
           </Route>
@@ -64,16 +60,12 @@ function Home() {
           <i class="sign in alternate icon"></i>
             Create Channel
         </div>
-    <p><span><a href="/about"><i class="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
+    <p><span><a href="/pages/about.html"><i class="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
     <p><span><a href="https://sp33c.tech">Who am I?</a></span></p>
    </div>
 </div>
     </Container>
   );
-}
-
-function About() {
-  return <h2>About</h2>;
 }
 
 serviceWorker.unregister();
