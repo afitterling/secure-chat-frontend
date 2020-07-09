@@ -24,13 +24,18 @@ class Channel extends React.Component {
 
     this.state = {
       messages: [],
-      user: uuidv4(),
+      user: this.getOrCreateUUID(),
       settings: {
         subscribers: 'n/a'
       }
     };
 
     this.userAvatarUrl = avatarsUrl(shuffle);
+  }
+
+  getOrCreateUUID() {
+    const uuid = uuidv4();
+    return uuid;
   }
 
   onSettingsTransmit = ({ subscribers }) => {
