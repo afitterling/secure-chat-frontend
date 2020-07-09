@@ -98,13 +98,13 @@ function StatusBar({ settings: { subscribers, encryption } }) {
         <div class="header"></div>
         <span><i class="user secret icon"></i><em>{subscribers}</em></span>&nbsp;
         {/* <span><i style={{color: encryption ? 'green' : 'red'}} className={encryption ? 'lock icon' : 'unlock icon'}></i></span> */}
-        <span><i class={'database icon'}></i> <em>on/off</em></span> &nbsp;
+{/*         <span><i class={'database icon'}></i> <em>on/off</em></span> &nbsp;
         <span><b>TTL</b> <em>24h</em></span>
-      </div>
+ */}      </div>
       <div class="ui message">
         <div class="header"><em>legend</em></div>
         <span><i class="user secret icon"></i> how many listeners in sum detected (including old connections and spies)</span><br />
-        <span><i class="database icon"></i> <em>on</em>: in memory (RAM) persistency. <em>off</em>: no persistency at all (old messages are lost)</span><br />
+        <span><i class="database icon"></i> <em>on</em>: server side record <em>off</em>: no persistency at all - messages are transitional</span><br />
         <span><i class="lock icon"></i> <em>locked</em>: end to end encryption (PKI) on client and service's node's side.</span><br />
         <span><i class="unlock icon"></i> <em>unlocked</em>: SSL/TLS transportation encryption only; messages can be read by everyone.</span><br />
         <span><b>TTL</b>: (in case of in-memory persistency) time to live (TTL) for each message on the db node's cluster until erased</span><br/>
