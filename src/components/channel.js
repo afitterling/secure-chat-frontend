@@ -104,7 +104,7 @@ function StatusBar({ settings: { subscribers, encryption } }) {
       <div class="ui message">
         <div class="header"><em>legend</em></div>
         <span><i class="user secret icon"></i> how many listeners in sum detected (including old connections and spies)</span><br />
-        <span><i class="database icon"></i> <em>on</em>: server side record <em>off</em>: no persistency at all - messages are transitional</span><br />
+        <span><i class="database icon"></i> <em>on</em>: server / node side in-memory persistency <em>off</em>: no persistency - messages are transitional</span><br />
         <span><i class="lock icon"></i> <em>locked</em>: end to end encryption (PKI) on client and service's node's side.</span><br />
         <span><i class="unlock icon"></i> <em>unlocked</em>: SSL/TLS transportation encryption only; messages can be read by everyone.</span><br />
         <span><b>TTL</b>: (in case of in-memory persistency) time to live (TTL) for each message on the db node's cluster until erased</span><br/>
