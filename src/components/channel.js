@@ -192,10 +192,10 @@ function ChatHistory({ messages }) {
         new Date(time* 1000).toLocaleString()
         }</Comment.Metadata></Comment.Author>
               <Comment.Text>
-                {content.text}
+              <i class="icon unlock"></i>{content.text}
               </Comment.Text>
               <Comment.Actions>
-                <Comment.Action><i class="icon unlock"></i></Comment.Action>
+                <Comment.Action></Comment.Action>
                 <Comment.Action></Comment.Action>
               </Comment.Actions>
             </Comment.Content>
