@@ -1,16 +1,17 @@
 import React from 'react';
-import './index.css';
+//import './index.css';
 import { withRouter } from "react-router";
 import {
   API_URL
-} from './settings';
+} from '../settings';
 import {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Container } from 'semantic-ui-react'
-import ModalModalExample from './modal';
+import ModalModalExample from '../modal';
 import { Label } from 'semantic-ui-react'
+import { postMessage } from '../services/messages';
 
 class Channel extends React.Component {
 
@@ -128,7 +129,7 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
       if (event.target.value === '') return;
       const textContent = { text: event.target.value };
       console.log('channel:', channelId, 'content:', textContent);
-      const r = await message(channelId, {
+      const r = await postMessage(channelId, {
         id: uuidv4(),
         user: user,
         avatarUrl: avatarUrl,
@@ -189,17 +190,5 @@ const avatarsUrl = (pickFn) => {
   const avatars = ['stevie', 'elliot', 'joe', 'zoe', 'nan', 'helen', 'veronika'];
   return `https://react.semantic-ui.com/images/avatar/small/${pickFn(avatars)}.jpg`;
 }
-
-const message = async (channel_id, msg) => {
-  const rawResponse = await fetch(`${API_URL}v1/channel/${channel_id}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ message: msg })
-  });
-  const content = await rawResponse.json();
-  return content;
-};
 
 export default withRouter(Channel);

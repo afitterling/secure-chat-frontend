@@ -8,7 +8,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import Channel from './channel';
+import Channel from './components/channel';
 import { Container } from 'semantic-ui-react'
 
 ReactDOM.render(
