@@ -98,7 +98,7 @@ function StatusBar({ settings: { subscribers, encryption } }) {
         <div class="header"></div>
         <span><i class="user secret icon"></i><em>{subscribers}</em></span>&nbsp;
         {/* <span><i style={{color: encryption ? 'green' : 'red'}} className={encryption ? 'lock icon' : 'unlock icon'}></i></span> */}
-        <span><i class={'database icon'}></i> <em>off</em></span> &nbsp;
+        <span><i class={'database icon'}></i> <em>on/off</em></span> &nbsp;
         <span><b>TTL</b> <em>24h</em></span>
       </div>
       <div class="ui message">
@@ -118,6 +118,7 @@ function StatusBar({ settings: { subscribers, encryption } }) {
 function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
 
   const [inputMessage, setInputMessage] = useState('');
+  const [persistency, setPersistence] = useState(true);
  
   const style = {
     width: '100%',
@@ -137,7 +138,8 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
         id: uuidv4(),
         user: user,
         avatarUrl: avatarUrl,
-        content: textContent
+        content: textContent,
+        persistency: persistency ? 1 : 0
       }).then((r) => {
         setInputMessage('');
         return r;
@@ -147,9 +149,16 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     }
   }
 
+  function onPersistency(){
+    setPersistence(!persistency);
+  }
+
   return (
     <div class="ui action input" style={style}>
       <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
+      <button class="ui icon button" onClick={onPersistency}>
+        <i class="database icon" style={{'color': persistency ? 'black': 'grey'}}></i>
+      </button>
       <button class="ui icon button">
         <i class="unlock icon"></i>
       </button>
@@ -166,13 +175,20 @@ function ChatHistory({ messages }) {
   return (
     <Container style={style}>
       <div class="ui relaxed divided list">
-        {messages.map(({ user, id, content, avatarUrl }) => (
+        {messages.map(({ user, id, content, avatarUrl, persistency }) => (
           <div class="item" key={id}>
             <img alt="avatar" class="ui avatar image" src={avatarUrl} />
             <div class="content">
-              <span class="header" href="/user"><i class="unlock icon"></i>{user}</span>
+              <span class="header" href="/user">
+                <i class="unlock icon"></i>{user}
+                </span>
               <div class="description">
-                {content.text}
+                { 
+                  (<span>
+                    {persistency === 1 ? '' : <i class="icon microphone slash red"></i>}
+                    {content.text}
+                    </span>)
+                }
               </div>
             </div>
           </div>
