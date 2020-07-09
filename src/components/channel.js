@@ -184,11 +184,13 @@ function ChatHistory({ messages }) {
   return (
     <Container style={style}>
       <Comment.Group>
-        {messages.map(({ user, id, content, avatarUrl, persistency }) => (
+        {messages.map(({ user, id, content, avatarUrl, persistency, time }) => (
           <Comment>
             <Comment.Avatar as='a' src={avatarUrl} />
             <Comment.Content>
-              <Comment.Author>{user}<Comment.Metadata>date time</Comment.Metadata></Comment.Author>
+        <Comment.Author>{user}<Comment.Metadata>{
+        new Date(time* 1000).toLocaleString()
+        }</Comment.Metadata></Comment.Author>
               <Comment.Text>
                 {content.text}
               </Comment.Text>
