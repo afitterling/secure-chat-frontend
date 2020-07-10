@@ -23,9 +23,6 @@ export default function App() {
   return (
     <Router>
       <div>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/channel/:channelId">
             <Channel />
@@ -47,18 +44,18 @@ function Home() {
   }
   return (
     <Container style={style}>
-      <h2 class="ui center aligned icon header">
-      <i class="circular users icon"></i>
+      <h2 className="ui center aligned icon header">
+      <i className="circular users icon"></i>
         Secure Messaging
       </h2>
-      <div class="ui one column stackable center aligned page grid">
-   <div class="column twelve wide">
+      <div className="ui one column stackable center aligned page grid">
+   <div className="column twelve wide">
    <p> To save your identity and freedom of speech!</p>
-        <div class="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
-          <i class="sign in alternate icon"></i>
+        <div className="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
+          <i className="sign in alternate icon"></i>
             Create Channel
         </div>
-    <p><span><a href={MEDIUM_ARTICLE}><i class="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
+    <p><span><a href={MEDIUM_ARTICLE}><i className="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
     <p><span><a href="https://sp33c.tech">Who am I?</a></span></p>
    </div>
 </div>

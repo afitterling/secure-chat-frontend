@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Comment, Header, Icon, Container } from 'semantic-ui-react'
+import { Comment, Header, Message, Icon, Container  } from 'semantic-ui-react'
 //import ModalSettings from '../modal';
 import {
   postMessage,
@@ -63,7 +63,7 @@ class Channel extends React.Component {
     this.source.addEventListener('message', this.onMessage);
   }
 
-  closeEventSource(){
+  closeEventSource() {
     this.source.removeEventListener('message', this.onMessage);
     this.source.close();
   }
@@ -88,7 +88,7 @@ class Channel extends React.Component {
     return (
       <Container>
         <Header as='h2'>
-          <Icon name='circular users item' />
+          <Icon name='users' circular={true} />
           <Header.Content>
             Secure Chat
             <Header.Subheader>
@@ -97,7 +97,7 @@ class Channel extends React.Component {
           </Header.Content>
         </Header>
         <StatusBar settings={this.state.settings}></StatusBar>
-        <ChatHistory channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
+        <ChatHistory self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
         <TextMessageInput user={this.state.user}
           onSettingsTransmit={this.onSettingsTransmit}
           avatarUrl={this.userAvatarUrl}
@@ -110,17 +110,17 @@ class Channel extends React.Component {
 function StatusBar({ settings: { subscribers, encryption } }) {
   encryption = false
   return (
-    <Container class="ui label">
-{/*       <div class="ui message">
-        <div class="header"></div>
-        <span><i class="user secret icon"></i><em>{subscribers}</em></span>&nbsp;
+    <Container className="ui label">
+      {/*       <div className="ui message">
+        <div className="header"></div>
+        <span><i className="user secret icon"></i><em>{subscribers}</em></span>&nbsp;
       </div>
- */}      <div class="ui message">
-{/*         <div class="header">Explanation</div>
-        <span><i class="user secret icon"></i> how many listeners (spies and old connections included)</span><br />
-        <span><i class="database icon"></i> <em>on</em>: server / node side in-memory persistency <em>off</em>: no persistency - messages are transitional</span><br />
-        <span><i class="lock icon"></i> <em>locked</em>: end to end encryption (PKI) on client and service's node's side.</span><br />
-        <span><i class="unlock icon"></i> <em>unlocked</em>: SSL/TLS transportation encryption only; messages can be read by everyone.</span><br />
+ */}      <div className="ui message">
+        {/*         <div className="header">Explanation</div>
+        <span><i className="user secret icon"></i> how many listeners (spies and old connections included)</span><br />
+        <span><i className="database icon"></i> <em>on</em>: server / node side in-memory persistency <em>off</em>: no persistency - messages are transitional</span><br />
+        <span><i className="lock icon"></i> <em>locked</em>: end to end encryption (PKI) on client and service's node's side.</span><br />
+        <span><i className="unlock icon"></i> <em>unlocked</em>: SSL/TLS transportation encryption only; messages can be read by everyone.</span><br />
  */}        <span><a href={MEDIUM_ARTICLE}>See how it all works</a>.</span>
       </div>
     </Container>
@@ -166,18 +166,18 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
   }
 
   return (
-    <div class="ui action input" style={style}>
-      <button class="ui icon button" onClick={onPersistency}>
-        <i class="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
+    <div className="ui action input" style={style}>
+      <button className="ui icon button" onClick={onPersistency}>
+        <i className="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
       </button>
-       <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
- {/*      <ModalSettings></ModalSettings> */}
+      <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
+      {/*      <ModalSettings></ModalSettings> */}
     </div>
   );
 
 }
 
-function ChatHistory({ messages }) {
+function ChatHistory({ self, messages }) {
   const style = {
     paddingBottom: '0.8rem',
     marginTop: '1.0rem'
@@ -185,24 +185,22 @@ function ChatHistory({ messages }) {
   return (
     <Container style={style}>
       <Comment.Group>
-        {messages.map(({ user, encrypted, content, avatarUrl, persistency, time }) => (
-          <Comment>
-            <Comment.Avatar as='a' src={avatarUrl} />
-            <Comment.Content>
-              <Comment.Author>{user}<Comment.Metadata>{
-              new Date(time* 1000).toLocaleString()
-              }</Comment.Metadata></Comment.Author>
-              <Comment.Text>
-                { persistency ? '' : <i class="icon microphone slash"></i> }
-                { encrypted ? '<i class="green icon lock"></i>' : <i class="grey icon unlock"></i> }
-                {content.text}
-              </Comment.Text>
-              <Comment.Actions>
-                <Comment.Action></Comment.Action>
-                <Comment.Action></Comment.Action>
-              </Comment.Actions>
-            </Comment.Content>
-          </Comment>
+        {messages.map(({ user, encrypted, content, avatarUrl, persistency, time }, i) => (
+          <Message key={i}>
+            <Comment>
+              <Comment.Avatar as='a' src={avatarUrl} />
+              <Comment.Content>
+                <Comment.Author>{user}<Comment.Metadata>{
+                  new Date(time * 1000).toLocaleString()
+                }</Comment.Metadata></Comment.Author>
+                <Comment.Text>
+                  {persistency ? '' : <i className="icon microphone slash"></i>}
+                  {encrypted ? '<i className="green icon lock"></i>' : <i className="grey icon unlock"></i>}
+                  {content.text}
+                </Comment.Text>
+              </Comment.Content>
+            </Comment>
+          </Message>
         ))}
       </Comment.Group>
     </Container>
