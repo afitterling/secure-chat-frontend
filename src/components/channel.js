@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Comment, Header, Icon, Container } from 'semantic-ui-react'
-import ModalSettings from '../modal';
+//import ModalSettings from '../modal';
 import {
   postMessage,
   fetchMessages
@@ -170,11 +170,8 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
       <button class="ui icon button" onClick={onPersistency}>
         <i class="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
       </button>
-      <button class="ui icon button">
-        <i class="unlock icon"></i>
-      </button>
-      <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
-      <ModalSettings></ModalSettings>
+       <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
+ {/*      <ModalSettings></ModalSettings> */}
     </div>
   );
 
