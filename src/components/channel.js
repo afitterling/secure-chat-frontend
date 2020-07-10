@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from "react-router";
 import {
   API_URL
-} from '../settings';
+} from '../settings-api';
 import {
   useState,
 } from 'react';

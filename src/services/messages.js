@@ -1,6 +1,6 @@
 import {
     API_URL
-  } from '../settings';
+  } from '../settings-api';
   
 const headers = {
     'Content-Type': 'application/json'
