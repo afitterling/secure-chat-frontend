@@ -28,7 +28,6 @@ class Crypto {
         )
         .then(function(key){
             //returns a key object
-            //console.log(key);
             return key;
         })
         .catch(function(err){
@@ -43,7 +42,6 @@ class Crypto {
         )
         .then(function(keydata){
             //returns the exported key data
-            console.log(keydata);
             return keydata;
         })
         .catch(function(err){
