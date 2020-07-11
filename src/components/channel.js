@@ -8,13 +8,12 @@ import {
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Comment, Header, Icon, Container  } from 'semantic-ui-react'
-//import ModalSettings from '../modal';
 import {
   postMessage,
   fetchMessages
 } from '../services/messages';
 import { MEDIUM_ARTICLE } from '../settings';
-import { crypto } from '../services/crypto';
+import crypto from '../services/crypto';
 
 class Channel extends React.Component {
 
@@ -102,8 +101,9 @@ class Channel extends React.Component {
         </Header>
         <StatusBar settings={this.state.settings}></StatusBar>
         <ChatHistory self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
-        <div className="ui message">
-          <em>Status</em>
+        <div className={ crypto.isAvailable ? 'green ui message' : 'ui message red' }>
+          <em>Status: </em>
+          { crypto.keys.length > 0 ? <b>keys for encryption auto generated and available.</b> : <b>encryption api unavailable, need to ask either system or safe users for keys!</b>}
         </div>
         <TextMessageInput user={this.state.user}
           onSettingsTransmit={this.onSettingsTransmit}
@@ -197,7 +197,7 @@ function ChatHistory({ self, messages }) {
           <Comment key={i}>
             <Comment.Avatar as='a' src={avatarUrl} />
             <Comment.Content>
-              <Comment.Author>{user}<Comment.Metadata>{
+              <Comment.Author>{ crypto.isAvailable? <Icon name='shield'/> : null }{user}<Comment.Metadata>{
                 new Date(time * 1000).toLocaleString()
               }</Comment.Metadata></Comment.Author>
               <Comment.Text>
@@ -205,31 +205,6 @@ function ChatHistory({ self, messages }) {
                 {encrypted ? '<i className="green icon lock"></i>' : <i className="grey icon unlock"></i>}
                 {content.text}
               </Comment.Text>
-              <Comment.Actions>
-          {/* <Comment.Action>Reply</Comment.Action>
-          <Comment.Action>Save</Comment.Action>
-          <Comment.Action>Hide</Comment.Action> */}
-          <Comment.Action>
-            <Icon name='key' />
-            request
-          </Comment.Action>
-          <Comment.Action>
-            <Icon name='shield alternate' />
-            mark save
-          </Comment.Action>
-          <Comment.Action>
-            <Icon name='shield' />
-            trust
-          </Comment.Action>
-          <Comment.Action>
-            <Icon name='lock' />
-            encrypt
-          </Comment.Action>
-          <Comment.Action>
-            <Icon name='first aid' />
-            insane encryption
-          </Comment.Action>
-        </Comment.Actions>
             </Comment.Content>
           </Comment>
         ))}

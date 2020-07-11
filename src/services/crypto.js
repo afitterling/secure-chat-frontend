@@ -1,14 +1,19 @@
 class Crypto {
 
     constructor(){
-        this.available = !!window.crypto;
-        this.errors = [];        
-        this.init();        
+        this.isAvailable = !!window.crypto;
+        this.exportedKeys = [];
+        this.keys = [];
+        if (this.isAvailable === false) return;
+        this.initCryptoAPI();        
     }
 
-    async init () {
-        this.key = await this.generateKey();
-        console.log('inside crypto key', this.key);
+    async initCryptoAPI () {
+        this.keys = [...this.keys, await this.generateKey()];
+        this.exportedKeys = [ 
+            ...this.exportedKeys, 
+            await this.exportKey(this.keys[this.keys.length-1])
+        ];
     }
 
     //  "wrapKey", or "unwrapKey"
@@ -32,7 +37,7 @@ class Crypto {
     }
 
     async exportKey(key){
-        await window.crypto.subtle.exportKey(
+        return await window.crypto.subtle.exportKey(
             "jwk", //can be "jwk" or "raw"
             key //extractable must be true
         )
@@ -48,5 +53,6 @@ class Crypto {
     }
 }
 
-export const crypto = new Crypto();
+const crypto = new Crypto()
+export default crypto;
 
