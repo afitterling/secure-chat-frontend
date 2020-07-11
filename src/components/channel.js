@@ -179,6 +179,9 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
       <button className="ui icon button" onClick={onPersistency}>
         <i className="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
       </button>
+      <button className="ui icon button">
+        <i className="unlock icon" style={{ 'color': 'black' }}></i>
+      </button>
       <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
     </div>
   );
