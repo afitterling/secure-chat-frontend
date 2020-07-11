@@ -80,10 +80,6 @@ class Channel extends React.Component {
     }, 12000);
     const data = await fetchMessages(this.channelId);
     this.setState({ messages: data.messages });
-    setInterval(async () => {
-      const data = await fetchMessages(this.channelId);
-      this.setState({ messages: data.messages });  
-    }, 12000);
   }
 
   componentWillUnmount() {
