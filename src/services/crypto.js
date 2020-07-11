@@ -3,11 +3,17 @@ class Crypto {
     constructor(){
         this.available = !!window.crypto;
         this.errors = [];        
+        this.init();        
+    }
+
+    async init () {
+        this.key = await this.generateKey();
+        console.log('inside crypto key', this.key);
     }
 
     //  "wrapKey", or "unwrapKey"
     async generateKey(cipher="AES-CTR", length=256, extractable = true, fns = ["encrypt", "decrypt"]){
-        await window.crypto.subtle.generateKey(
+        return await window.crypto.subtle.generateKey(
             {
                 name: cipher,
                 length: length, //can be  128, 192, or 256
@@ -17,7 +23,7 @@ class Crypto {
         )
         .then(function(key){
             //returns a key object
-            console.log(key);
+            //console.log(key);
             return key;
         })
         .catch(function(err){

@@ -14,6 +14,7 @@ import {
   fetchMessages
 } from '../services/messages';
 import { MEDIUM_ARTICLE } from '../settings';
+import { crypto } from '../services/crypto';
 
 class Channel extends React.Component {
 
@@ -69,6 +70,9 @@ class Channel extends React.Component {
   }
 
   async componentDidMount() {
+    const keys = await crypto.generateKey();
+    console.log('keys', keys);
+
     this.eventSource();
     this.cancel = setInterval(() => {
       console.log('resubscribe');
@@ -98,6 +102,9 @@ class Channel extends React.Component {
         </Header>
         <StatusBar settings={this.state.settings}></StatusBar>
         <ChatHistory self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
+        <div className="ui message">
+          <em>Status</em>
+        </div>
         <TextMessageInput user={this.state.user}
           onSettingsTransmit={this.onSettingsTransmit}
           avatarUrl={this.userAvatarUrl}
@@ -198,6 +205,31 @@ function ChatHistory({ self, messages }) {
                 {encrypted ? '<i className="green icon lock"></i>' : <i className="grey icon unlock"></i>}
                 {content.text}
               </Comment.Text>
+              <Comment.Actions>
+          {/* <Comment.Action>Reply</Comment.Action>
+          <Comment.Action>Save</Comment.Action>
+          <Comment.Action>Hide</Comment.Action> */}
+          <Comment.Action>
+            <Icon name='key' />
+            request
+          </Comment.Action>
+          <Comment.Action>
+            <Icon name='shield alternate' />
+            mark save
+          </Comment.Action>
+          <Comment.Action>
+            <Icon name='shield' />
+            trust
+          </Comment.Action>
+          <Comment.Action>
+            <Icon name='lock' />
+            encrypt
+          </Comment.Action>
+          <Comment.Action>
+            <Icon name='first aid' />
+            insane encryption
+          </Comment.Action>
+        </Comment.Actions>
             </Comment.Content>
           </Comment>
         ))}
