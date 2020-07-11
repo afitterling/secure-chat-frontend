@@ -159,7 +159,8 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
         user: user,
         avatarUrl: avatarUrl,
         content: textContent,
-        persistency: persistency ? 1 : 0
+        persistency: persistency ? 1 : 0,
+        cryptoIsAvailable: crypto.isAvailable ? 1 : 0
       }).then((r) => {
         setInputMessage('');
         return r;
@@ -179,7 +180,6 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
         <i className="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
       </button>
       <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
-      {/*      <ModalSettings></ModalSettings> */}
     </div>
   );
 
@@ -193,16 +193,16 @@ function ChatHistory({ self, messages }) {
   return (
     <Container style={style}>
       <Comment.Group>
-        {messages.map(({ user, encrypted, content, avatarUrl, persistency, time }, i) => (
+        {messages.map(({ user, cryptoIsAvailable, encrypted, content, avatarUrl, persistency, time }, i) => (
           <Comment key={i}>
             <Comment.Avatar as='a' src={avatarUrl} />
             <Comment.Content>
-              <Comment.Author>{ crypto.isAvailable? <Icon name='shield'/> : null }{user}<Comment.Metadata>{
+              <Comment.Author>{ cryptoIsAvailable === 1? <Icon name='shield'/> : null }{user}<Comment.Metadata>{
                 new Date(time * 1000).toLocaleString()
               }</Comment.Metadata></Comment.Author>
               <Comment.Text>
                 {persistency ? '' : <i className="icon microphone slash"></i>}
-                {encrypted ? '<i className="green icon lock"></i>' : <i className="grey icon unlock"></i>}
+                {encrypted ? '<i className="green icon lock"></i>' : <i className="grey icon lock open"></i>}
                 {content.text}
               </Comment.Text>
             </Comment.Content>
