@@ -53,12 +53,16 @@ function Home() {
     <div class="ui message blue">
       Warning. System in alpha stage. A production system will be released soon and announced. Instructions on how to deploy it will follow.
     </div>
-   <p> To save your identity and freedom of speech!</p>
-        <div className="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
-          <i className="sign in alternate icon"></i>
-            Create Channel
-        </div>
-    <p><span><a href={MEDIUM_ARTICLE}><i className="arrow circle right icon"></i> Take a look first and see how it works</a></span></p>
+    <p> To save your identity and freedom of speech!</p>
+    <div className="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
+      <i className="sign in alternate icon"></i>
+        Create Channel
+    </div>
+    <div>
+      <iframe title="gify" src="https://giphy.com/embed/1AhvWtN00flE0zjr3i" width="180" height="180" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/trippy-abstract-pi-slices-1AhvWtN00flE0zjr3i"><span style={{color: 'white'}}>The Grid.</span></a></p>
+    </div>
+    <p></p>
+    <p><span><a href={MEDIUM_ARTICLE}><i className="arrow circle right icon"></i> See how it works</a></span></p>
     <p><span><a href="https://sp33c.tech">Who am I?</a></span></p>
    </div>
 </div>
