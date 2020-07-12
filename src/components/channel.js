@@ -99,6 +99,7 @@ class Channel extends React.Component {
             </Header.Subheader>
           </Header.Content>
         </Header>
+        <ClipboardShare></ClipboardShare>
         <StatusBar settings={this.state.settings}></StatusBar>
         <ChatHistory self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
         <div className={ crypto.isAvailable ? 'green ui message' : 'ui message red' }>
@@ -112,6 +113,30 @@ class Channel extends React.Component {
       </Container>
     );
   }
+}
+
+function ClipboardShare(){
+
+  const [copied, setCopied] = useState(false);
+
+  const share = () => {
+    setCopied(true);
+    const channelUrl = window.location.href;
+    console.log();
+    navigator.clipboard.writeText(channelUrl);
+    setTimeout(()=>{
+      setCopied(false);
+    }, 2000);
+  }
+
+  return (
+    <Header as='h4' onClick={share}>
+    <Icon name='copy' color={copied ? 'blue': 'black'}/>
+      <Header.Content>
+        Share this channel.
+      </Header.Content>
+    </Header>
+  );
 }
 
 function StatusBar({ settings: { subscribers, encryption } }) {
