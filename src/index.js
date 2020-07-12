@@ -50,6 +50,9 @@ function Home() {
       </h2>
       <div className="ui one column stackable center aligned page grid">
    <div className="column twelve wide">
+    <div class="ui message blue">
+      Warning. System in alpha stage. A production system will be released soon and announced. Instructions on how to deploy it will follow.
+    </div>
    <p> To save your identity and freedom of speech!</p>
         <div className="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
           <i className="sign in alternate icon"></i>
