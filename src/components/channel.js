@@ -126,14 +126,14 @@ function ClipboardShare(){
     navigator.clipboard.writeText(channelUrl);
     setTimeout(()=>{
       setCopied(false);
-    }, 2000);
+    }, 800);
   }
 
   return (
     <Header as='h4' onClick={share}>
     <Icon name='copy' color={copied ? 'blue': 'black'}/>
       <Header.Content>
-        Share this channel.
+        {copied ? 'copied' : 'Copy Url to Clipboard'}
       </Header.Content>
     </Header>
   );
