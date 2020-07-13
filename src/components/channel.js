@@ -100,7 +100,7 @@ class Channel extends React.Component {
           </Header.Content>
         </Header>
         <ClipboardShare></ClipboardShare>
-        {/* <StatusBar settings={this.state.settings}></StatusBar> */}
+        <StatusBar settings={this.state.settings}></StatusBar>
         <ChatHistory self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
         <div className={ crypto.isAvailable ? 'green ui message' : 'ui message red' }>
           <em>Status: </em>
