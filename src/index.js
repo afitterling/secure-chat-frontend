@@ -50,7 +50,7 @@ function Home() {
       </h2>
       <div className="ui one column stackable center aligned page grid">
    <div className="column twelve wide">
-    <div class="ui message blue">
+    <div className="ui message blue">
       Warning, System in alpha stage. Use with care. Any new version will be announced on this page.
     </div>
     <p> To save your identity and freedom of speech!</p>
