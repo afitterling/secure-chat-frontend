@@ -174,8 +174,12 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     setInputMessage(event.target.value);
   }
 
+  const encoderFn = (string) => {
+    return { text: 'e ' + string };
+  }
+
   const onSubmit = async () => {
-    const textContent = { text: inputMessage };
+    const textContent = encoded ? encoderFn(inputMessage) : { text: inputMessage };
     console.log('channel:', channelId, 'content:', textContent);
     const r = await postMessage(channelId, {
       id: uuidv4(),
