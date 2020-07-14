@@ -206,13 +206,13 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     <Container style={paddingBottom}>
       <Form onSubmit={onSubmit}>
         <Form.Field required>
-          <div class="ui action input">
+          <div className="ui action input">
             <button type="button" className="ui icon button" onClick={onPersistency}>
               <i className="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
             </button>
             <input value={inputMessage} onChange={onchange}
                    placeholder={placeholderMessage()}  />
-            <button class="ui button" type="submit">
+            <button className="ui button" type="submit">
               send
             </button>
           </div>        
