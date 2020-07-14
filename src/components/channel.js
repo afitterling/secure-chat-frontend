@@ -7,12 +7,12 @@ import {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Comment, Header, Icon, Container  } from 'semantic-ui-react'
+import { Comment, Header, Icon, Container, Form  } from 'semantic-ui-react'
 import {
   postMessage,
   fetchMessages
 } from '../services/messages';
-import { MEDIUM_ARTICLE } from '../settings';
+// import { MEDIUM_ARTICLE } from '../settings';
 import crypto from '../services/crypto';
 
 class Channel extends React.Component {
@@ -100,7 +100,7 @@ class Channel extends React.Component {
           </Header.Content>
         </Header>
         <ClipboardShare></ClipboardShare>
-        <StatusBar settings={this.state.settings}></StatusBar>
+        {/* <StatusBar settings={this.state.settings}></StatusBar> */}
         <ChatHistory self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
         <div className={ crypto.isAvailable ? 'green ui message' : 'ui message red' }>
           <em>Status: </em>
@@ -139,78 +139,87 @@ function ClipboardShare(){
   );
 }
 
-function StatusBar({ settings: { subscribers, encryption } }) {
-  encryption = false
-  return (
-    <Container className="ui label">
-      <div className="ui message">
-        <div className="header"></div>
-        {/* <span><i className="user secret icon"></i><em>{subscribers}</em></span>&nbsp; */}
-        <span><i>Message's time to live in-memory (TTL)</i>: <em>12h</em></span>&nbsp;
-      </div>
-      <div className="ui message">
-        <div className="header">Explanation</div>
-        <span><i className="user secret icon"></i> how many listeners (spies and old connections included)</span><br />
-        <span><i className="database icon"></i> <em>on</em>: cluster in-memory (RAM) persistency (TTL); <em>off</em>: messages aren't stored anywhere only on screen</span><br />
-        <span><i className="lock icon"></i> <em>locked</em>: end to end encryption (PKI) on client and service's node's side.</span><br />
-        <span><i className="unlock icon"></i> <em>unlocked</em>: SSL/TLS transportation encryption only; messages can be read by everyone.</span><br />
-     <span><a href={MEDIUM_ARTICLE}>See how it all works</a>.</span>
-      </div>
-    </Container>
-  );
-}
+// function StatusBar({ settings: { subscribers, encryption } }) {
+//   encryption = false
+//   return (
+//     <Container className="ui label">
+//       <div className="ui message">
+//         <div className="header"></div>
+//         {/* <span><i className="user secret icon"></i><em>{subscribers}</em></span>&nbsp; */}
+//         <span><i>Message's time to live in-memory (TTL)</i>: <em>12h</em></span>&nbsp;
+//       </div>
+//       <div className="ui message">
+//         <div className="header">Explanation</div>
+//         <span><i className="user secret icon"></i> how many listeners (spies and old connections included)</span><br />
+//         <span><i className="database icon"></i> <em>on</em>: cluster in-memory (RAM) persistency (TTL); <em>off</em>: messages aren't stored anywhere only on screen</span><br />
+//         <span><i className="lock icon"></i> <em>locked</em>: end to end encryption (PKI) on client and service's node's side.</span><br />
+//         <span><i className="unlock icon"></i> <em>unlocked</em>: SSL/TLS transportation encryption only; messages can be read by everyone.</span><br />
+//      <span><a href={MEDIUM_ARTICLE}>See how it all works</a>.</span>
+//       </div>
+//     </Container>
+//   );
+// }
 
 function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
 
   const [inputMessage, setInputMessage] = useState('');
   const [persistency, setPersistence] = useState(true);
 
-  const style = {
-    width: '100%',
-    marginBottom: '0.6rem'
+  const paddingBottom = {
+    marginBottom: '2.0rem'
   }
 
-  onchange = (event) => {
+  const onchange = (event) => {
     setInputMessage(event.target.value);
   }
 
-  const handleKeyPress = async (event) => {
-    if (event.key === 'Enter') {
-      if (event.target.value === '') return;
-      const textContent = { text: event.target.value };
-      console.log('channel:', channelId, 'content:', textContent);
-      const r = await postMessage(channelId, {
-        id: uuidv4(),
-        user: user,
-        avatarUrl: avatarUrl,
-        content: textContent,
-        persistency: persistency ? 1 : 0,
-        cryptoIsAvailable: crypto.isAvailable ? 1 : 0
-      }).then((r) => {
-        setInputMessage('');
-        return r;
-      });
-      console.log('response = ', r);
-      onSettingsTransmit({ subscribers: r.nsubs });
-    }
+  const onSubmit = async () => {
+    const textContent = { text: inputMessage };
+    console.log('channel:', channelId, 'content:', textContent);
+    const r = await postMessage(channelId, {
+      id: uuidv4(),
+      user: user,
+      avatarUrl: avatarUrl,
+      content: textContent,
+      persistency: persistency ? 1 : 0,
+      cryptoIsAvailable: crypto.isAvailable ? 1 : 0
+    }).then((r) => {
+      setInputMessage('');
+      return r;
+    });
+    console.log('response = ', r);
+    //onSettingsTransmit({ subscribers: r.nsubs });
   }
 
   function onPersistency() {
     setPersistence(!persistency);
+   }
+
+  function placeholderMessage(){
+    if (!persistency) {
+      return 'Transient Message ...'
+    }
+    return 'Message ...';
   }
 
   return (
-    <div className="ui action input" style={style}>
-      <button className="ui icon button" onClick={onPersistency}>
-        <i className="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
-      </button>
-      <button className="ui icon button">
-        <i className="unlock icon" style={{ 'color': 'black' }}></i>
-      </button>
-      <input value={inputMessage} onChange={onchange} placeholder='Message ...' onKeyPress={(e) => { handleKeyPress(e) }} />
-    </div>
+    <Container style={paddingBottom}>
+      <Form onSubmit={onSubmit}>
+        <Form.Field required>
+          <div class="ui action input">
+            <button type="button" className="ui icon button" onClick={onPersistency}>
+              <i className="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
+            </button>
+            <input value={inputMessage} onChange={onchange}
+                   placeholder={placeholderMessage()}  />
+            <button class="ui button" type="submit">
+              send
+            </button>
+          </div>        
+        </Form.Field>
+      </Form>
+    </Container>
   );
-
 }
 
 function ChatHistory({ self, messages }) {
