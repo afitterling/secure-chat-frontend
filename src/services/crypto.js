@@ -12,16 +12,19 @@ class Crypto {
         this.keys = [...this.keys, await this.generateKey()];
         this.exportedKeys = [ 
             ...this.exportedKeys, 
-            await this.exportKey(this.keys[this.keys.length-1])
+             await this.exportKey(this.keys[this.keys.length-1].publicKey)
         ];
+        //console.log(JSON.stringify(this.exportedKeys[0]));
     }
 
     //  "wrapKey", or "unwrapKey"
     async generateKey(cipher="AES-CTR", length=256, extractable = true, fns = ["encrypt", "decrypt"]){
         return await window.crypto.subtle.generateKey(
             {
-                name: cipher,
-                length: length, //can be  128, 192, or 256
+                name: "RSA-OAEP",
+                modulusLength: 4096,
+                publicExponent: new Uint8Array([1, 0, 1]),
+                hash: "SHA-256",        
             },
             extractable, //whether the key is extractable (i.e. can be used in exportKey)
             fns //can "encrypt", "decrypt", "wrapKey", or "unwrapKey"
