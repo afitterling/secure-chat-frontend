@@ -69,8 +69,9 @@ class Channel extends React.Component {
   }
 
   async componentDidMount() {
-    const keys = await crypto.generateKey();
-    console.log('keys', keys);
+//    const keys = await crypto.generateKey();
+//    console.log('pkey', keys.publicKey);
+//    console.log(await crypto.exportKey(keys.publicKey));
 
     this.eventSource();
     this.cancel = setInterval(() => {
