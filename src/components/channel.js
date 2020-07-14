@@ -164,6 +164,7 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
 
   const [inputMessage, setInputMessage] = useState('');
   const [persistency, setPersistence] = useState(true);
+  const [encoded, setEncoded] = useState(false);
 
   const paddingBottom = {
     marginBottom: '2.0rem'
@@ -193,13 +194,18 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
 
   function onPersistency() {
     setPersistence(!persistency);
-   }
+  }
+
+  const textReducer = (enc, trans) => {
+    return (enc ? 'encrypted' : '') + (enc && trans ? ' ' : '') + (trans ? 'transient' : '') + ' message';
+  }
 
   function placeholderMessage(){
-    if (!persistency) {
-      return 'Transient Message ...'
-    }
-    return 'Message ...';
+    return textReducer(encoded, !persistency);
+  }
+
+  const onDecodeEncode = () => {
+    setEncoded(!encoded);
   }
 
   return (
@@ -209,6 +215,9 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
           <div className="ui action input">
             <button type="button" className="ui icon button" onClick={onPersistency}>
               <i className="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
+            </button>
+            <button type="button" className="ui icon button" onClick={onDecodeEncode}>
+              <i className={encoded ? "lock icon": "unlock icon"} style={{ 'color': encoded ? 'black' : 'grey' }}></i>
             </button>
             <input value={inputMessage} onChange={onchange}
                    placeholder={placeholderMessage()}  />

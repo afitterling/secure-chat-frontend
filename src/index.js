@@ -59,7 +59,7 @@ function Home() {
         Create Channel
     </div>
     <div>
-      <iframe title="gify" src="https://giphy.com/embed/1AhvWtN00flE0zjr3i" width="180" height="180" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/trippy-abstract-pi-slices-1AhvWtN00flE0zjr3i"><span style={{color: 'white'}}>The Grid.</span></a></p>
+      <iframe title="gify" src="https://giphy.com/embed/1AhvWtN00flE0zjr3i" width="180" height="180" frameBorder="0" className="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/trippy-abstract-pi-slices-1AhvWtN00flE0zjr3i"><span style={{color: 'white'}}>The Grid.</span></a></p>
     </div>
     <p></p>
     <p><span><a href={MEDIUM_ARTICLE}><i className="arrow circle right icon"></i> See how it works</a></span></p>
