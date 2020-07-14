@@ -181,6 +181,7 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
       id: uuidv4(),
       user: user,
       avatarUrl: avatarUrl,
+      encoded: encoded ? 1 : 0,
       content: textContent,
       persistency: persistency ? 1 : 0,
       cryptoIsAvailable: crypto.isAvailable ? 1 : 0
@@ -239,7 +240,7 @@ function ChatHistory({ self, messages }) {
   return (
     <Container style={style}>
       <Comment.Group>
-        {messages.map(({ user, cryptoIsAvailable, encrypted, content, avatarUrl, persistency, time }, i) => (
+        {messages.map(({ user, cryptoIsAvailable, encoded, content, avatarUrl, persistency, time }, i) => (
           <Comment key={i}>
             <Comment.Avatar as='a' src={avatarUrl} />
             <Comment.Content>
@@ -248,7 +249,7 @@ function ChatHistory({ self, messages }) {
               }</Comment.Metadata></Comment.Author>
               <Comment.Text>
                 {persistency ? '' : <i className="icon microphone slash"></i>}
-                {encrypted ? '<i className="green icon lock"></i>' : <i className="grey icon lock open"></i>}
+                {encoded ? <i className="green icon lock"></i> : <i className="grey icon lock open"></i>}
                 {content.text}
               </Comment.Text>
             </Comment.Content>
