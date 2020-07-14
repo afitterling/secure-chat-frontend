@@ -51,7 +51,7 @@ function Home() {
       <div className="ui one column stackable center aligned page grid">
    <div className="column twelve wide">
     <div class="ui message blue">
-      Warning. System in alpha stage. A production system will be released soon and announced. Instructions on how to deploy it will follow.      
+      Warning, System in alpha stage. Use with care. Any new version will be announced on this page.
     </div>
     <p> To save your identity and freedom of speech!</p>
     <div className="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
