@@ -13,7 +13,7 @@ import {
   fetchMessages
 } from '../services/messages';
 // import { MEDIUM_ARTICLE } from '../settings';
-import crypto from '../services/crypto';
+import Crypto from '../services/crypto';
 
 class Channel extends React.Component {
 
@@ -103,9 +103,9 @@ class Channel extends React.Component {
         <ClipboardShare></ClipboardShare>
         {/* <StatusBar settings={this.state.settings}></StatusBar> */}
         <ChatHistory self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
-        <div className={ crypto.isAvailable ? 'green ui message' : 'ui message red' }>
+        <div className={ Crypto.isAvailable ? 'green ui message' : 'ui message red' }>
           <em>Status: </em>
-          { crypto.keys.length > 0 ? <b>keys for encryption auto generated and available.</b> : <b>encryption api unavailable, need to ask either system or safe users for keys!</b>}
+          { Crypto.keys.length > 0 ? <b>keys for encryption auto generated and available.</b> : <b>encryption api unavailable, need to ask either system or safe users for keys!</b>}
         </div>
         <TextMessageInput user={this.state.user}
           onSettingsTransmit={this.onSettingsTransmit}

@@ -1,4 +1,4 @@
-class Crypto {
+class CryptoService {
 
     constructor(){
         this.isAvailable = !!window.crypto;
@@ -14,7 +14,7 @@ class Crypto {
             ...this.exportedKeys, 
              await this.exportKey(this.keys[this.keys.length-1].publicKey)
         ];
-        //console.log(JSON.stringify(this.exportedKeys[0]));
+        console.log(JSON.stringify(this.exportedKeys[0]));
     }
 
     //  "wrapKey", or "unwrapKey"
@@ -54,6 +54,6 @@ class Crypto {
     }
 }
 
-const crypto = new Crypto()
-export default crypto;
+const Crypto = new CryptoService()
+export default Crypto;
 
