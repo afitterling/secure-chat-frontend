@@ -2,6 +2,7 @@ class CryptoService {
 
     constructor(){
         this.isAvailable = !!window.crypto;
+        this.pubKeys = {};
         this.exportedKeys = [];
         this.keys = [];
         if (this.isAvailable === false) return;
@@ -15,6 +16,11 @@ class CryptoService {
              await this.exportKey(this.keys[this.keys.length-1].publicKey)
         ];
         console.log(this.exportedKeys[0]);
+    }
+
+    addPubKey(user, key) {
+        this.pubKeys = {...this.pubKeys[user] = key}
+        console.log(this.pubKeys);
     }
 
     //  "wrapKey", or "unwrapKey"
