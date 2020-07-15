@@ -14,7 +14,7 @@ class CryptoService {
             ...this.exportedKeys, 
              await this.exportKey(this.keys[this.keys.length-1].publicKey)
         ];
-        console.log(JSON.stringify(this.exportedKeys[0]));
+        console.log(this.exportedKeys[0]);
     }
 
     //  "wrapKey", or "unwrapKey"
@@ -22,9 +22,9 @@ class CryptoService {
         return await window.crypto.subtle.generateKey(
             {
                 name: "RSA-OAEP",
-                modulusLength: 4096,
-                publicExponent: new Uint8Array([1, 0, 1]),
-                hash: "SHA-256",        
+                modulusLength: 2048, // can be 1024, 2048 or 4096
+                publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+                hash: {name: "SHA-256"} // or SHA-512
             },
             extractable, //whether the key is extractable (i.e. can be used in exportKey)
             fns //can "encrypt", "decrypt", "wrapKey", or "unwrapKey"
@@ -40,7 +40,7 @@ class CryptoService {
 
     async exportKey(key){
         return await window.crypto.subtle.exportKey(
-            "jwk", //can be "jwk" or "raw"
+            'jwk', //can be "jwk" or "raw"
             key //extractable must be true
         )
         .then(function(keydata){
@@ -49,8 +49,7 @@ class CryptoService {
         })
         .catch(function(err){
             console.error(err);
-        });
-    
+        });   
     }
 }
 
