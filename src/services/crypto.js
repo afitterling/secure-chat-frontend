@@ -18,7 +18,7 @@ class CryptoService {
     }
 
     //  "wrapKey", or "unwrapKey"
-    async generateKey(cipher="AES-CTR", length=256, extractable = true, fns = ["encrypt", "decrypt"]){
+    async generateKey(extractable = true, fns = ["encrypt", "decrypt"]){
         return await window.crypto.subtle.generateKey(
             {
                 name: "RSA-OAEP",
@@ -51,6 +51,16 @@ class CryptoService {
             console.error(err);
         });   
     }
+
+    async encryptMessage(publicKey, decoded) {
+        return window.crypto.subtle.encrypt(
+          {
+            name: "RSA-OAEP"
+          },
+          publicKey,
+          decoded
+        );
+      }
 }
 
 const Crypto = new CryptoService()

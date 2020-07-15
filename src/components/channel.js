@@ -218,9 +218,7 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     postMessageFn(
       {
         text: 'key published',
-        payload: {
-          key: window.btoa(JSON.stringify(Crypto.exportedKeys[0]))
-        }
+        key: window.btoa(JSON.stringify(Crypto.exportedKeys[0]))
       }
       );
   }
@@ -257,18 +255,25 @@ function ChatHistory({ self, messages }) {
   return (
     <Container style={style}>
       <Comment.Group>
-        {messages.map(({ user, cryptoIsAvailable, encoded, content, avatarUrl, persistency, time }, i) => (
+        {messages.map(({ user, cryptoIsAvailable, encoded, content, avatarUrl, persistency, time, key }, i) => (
           <Comment key={i}>
             <Comment.Avatar as='a' src={avatarUrl} />
             <Comment.Content>
               <Comment.Author>{ cryptoIsAvailable === 1? <Icon name='shield'/> : null }{user}<Comment.Metadata>{
                 new Date(time * 1000).toLocaleString()
               }</Comment.Metadata></Comment.Author>
-              <Comment.Text>
-                {persistency ? '' : <i className="icon microphone slash"></i>}
-                {encoded ? <i className="green icon lock"></i> : <i className="grey icon lock open"></i>}
-                {content.text}
-              </Comment.Text>
+              {
+                !content.key ?               
+                <Comment.Text>
+                  {persistency ? '' : <i className="icon microphone slash"></i>}
+                  {encoded ? <i className="green icon lock"></i> : <i className="grey icon lock open"></i>}
+                  {content.text}
+                </Comment.Text> : <Comment.Text>
+                  <i className="key icon"></i>
+                  Key Published
+                </Comment.Text>
+
+              }
             </Comment.Content>
           </Comment>
         ))}
