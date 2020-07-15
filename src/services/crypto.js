@@ -19,7 +19,7 @@ class CryptoService {
     }
 
     addPubKey(user, key) {
-        this.pubKeys = {...this.pubKeys[user] = key}
+        this.pubKeys[user] = key;
         console.log(this.pubKeys);
     }
 
@@ -66,7 +66,24 @@ class CryptoService {
           publicKey,
           decoded
         );
-      }
+    }
+
+    async importKey(key){
+        console.log('key to import', key)
+        return await window.crypto.subtle.importKey(
+            "jwk",
+            key,
+            {
+                name: "RSA-OAEP",
+                // Consider using a 4096-bit key for systems that require long-term security
+                // modulusLength: 2048,
+                // publicExponent: new Uint8Array([1, 0, 1]),
+                hash: "SHA-256",
+            },
+            true,
+            ["encrypt"]
+          );    
+    }
 }
 
 const Crypto = new CryptoService()

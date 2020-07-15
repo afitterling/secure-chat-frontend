@@ -55,7 +55,12 @@ class Channel extends React.Component {
     // TODO refactor put in external lib
     if (msg.content.key){
       console.log(msg.user, JSON.parse(window.atob(msg.content.key)));
-      Crypto.addPubKey(msg.user, JSON.parse(window.atob(msg.content.key)));
+      const rawKey = JSON.parse(window.atob(msg.content.key));
+      Crypto.importKey(rawKey).then((key)=>{
+        console.log('imported', key);
+        Crypto.addPubKey(msg.user, key);
+      })
+      
     }
     this.setState({ messages: [...this.state.messages, msg] });
   }
@@ -178,8 +183,16 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     setInputMessage(event.target.value);
   }
 
-  const encoderFn = (string) => {
-    return { text: 'e ' + string };
+  const encoderFn = async (string) => {
+    console.log(Crypto.pubKeys);
+    // import 
+    for (const keyRec in Crypto.pubKeys) {
+      console.log(keyRec);
+      console.log(await Crypto.encryptMessage(Crypto.pubKeys[keyRec], string));
+    }
+    return { 
+      text: 'encrypted message'
+    };
   }
 
   const postMessageFn = async (content) => {
