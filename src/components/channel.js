@@ -179,23 +179,22 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     return { text: 'e ' + string };
   }
 
-  const onSubmit = async () => {
-    const textContent = encoded ? encoderFn(inputMessage) : { text: inputMessage };
-    console.log('channel:', channelId, 'content:', textContent);
-    const r = await postMessage(channelId, {
+  const postMessageFn = async (content) => {
+    return await postMessage(channelId, {
       id: uuidv4(),
       user: user,
       avatarUrl: avatarUrl,
       encoded: encoded ? 1 : 0,
-      content: textContent,
+      content: content,
       persistency: persistency ? 1 : 0,
       cryptoIsAvailable: crypto.isAvailable ? 1 : 0
-    }).then((r) => {
-      setInputMessage('');
-      return r;
-    });
-    console.log('response = ', r);
-    //onSettingsTransmit({ subscribers: r.nsubs });
+    })
+  }
+
+  const onSubmit = async () => {
+    const textContent = encoded ? encoderFn(inputMessage) : { text: inputMessage };
+    console.log(await postMessageFn(textContent));
+    setInputMessage('');
   }
 
   function onPersistency() {
@@ -214,8 +213,21 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     setEncoded(!encoded);
   }
 
+  const onPublishKey = () => {
+    console.log(JSON.stringify(Crypto.exportedKeys[0]));
+    postMessageFn(
+      {
+        text: 'key published',
+        payload: {
+          key: window.btoa(JSON.stringify(Crypto.exportedKeys[0]))
+        }
+      }
+      );
+  }
+
   return (
     <Container style={paddingBottom}>
+      <button type="button" className="ui button" onClick={onPublishKey}>publish pub key</button>
       <Form onSubmit={onSubmit}>
         <Form.Field required>
           <div className="ui action input">
