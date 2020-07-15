@@ -59,12 +59,13 @@ class CryptoService {
     }
 
     async encryptMessage(publicKey, decoded) {
+        const enc = new TextEncoder();
         return window.crypto.subtle.encrypt(
           {
             name: "RSA-OAEP"
           },
           publicKey,
-          decoded
+          enc.encode(decoded)
         );
     }
 

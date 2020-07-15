@@ -188,7 +188,8 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     // import 
     for (const keyRec in Crypto.pubKeys) {
       console.log(keyRec);
-      console.log(await Crypto.encryptMessage(Crypto.pubKeys[keyRec], string));
+      const encryptedMessage = await Crypto.encryptMessage(Crypto.pubKeys[keyRec], string);
+      console.log(window.btoa(encryptedMessage));
     }
     return { 
       text: 'encrypted message'
