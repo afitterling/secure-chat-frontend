@@ -46,14 +46,18 @@ class Channel extends React.Component {
   }
 
   onSettingsTransmit = ({ subscribers }) => {
-    //
     console.log('subscribers', subscribers);
     this.setState({ ...this.state, settings: { ...this.state.settings, subscribers: subscribers } });
   }
 
   onMessage = (e) => {
-    const js = JSON.parse(e.data.replace(/'/g, "\""));
-    this.setState({ messages: [...this.state.messages, js] });
+    const msg = JSON.parse(e.data.replace(/'/g, "\""));
+    // TODO refactor put in external lib
+    if (msg.content.key){
+      console.log(msg.user, JSON.parse(window.atob(msg.content.key)));
+      Crypto.addPubKey(msg.user, JSON.parse(window.atob(msg.content.key)));
+    }
+    this.setState({ messages: [...this.state.messages, msg] });
   }
 
   eventSource() {
@@ -123,7 +127,6 @@ function ClipboardShare(){
   const share = () => {
     setCopied(true);
     const channelUrl = window.location.href;
-    console.log();
     navigator.clipboard.writeText(channelUrl);
     setTimeout(()=>{
       setCopied(false);
