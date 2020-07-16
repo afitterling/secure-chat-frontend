@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,6 +11,9 @@ import {
 import Channel from './components/channel';
 import { Container } from 'semantic-ui-react';
 import { MEDIUM_ARTICLE } from './settings';
+import {
+  API_URL
+} from './settings-api';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -37,10 +40,23 @@ export default function App() {
 }
 
 function Home() {
-  const style={
-  }
+  const [apiStatus, setApiStatus] = useState(null);
+
+  fetch(`${API_URL}/v1/status`).then((r)=>{
+    if (r.status === 200){
+      setApiStatus(true);
+      return;
+    }
+    setApiStatus(false);
+  }).catch(()=>{
+    setApiStatus(false);
+  });
+
   const onClick = () => {
     window.location.href = `/channel/` + uuidv4();
+  }
+
+  const style={
   }
   return (
     <Container style={style}>
@@ -54,10 +70,11 @@ function Home() {
       Warning. System in alpha stage. A production system will be released soon and announced. Instructions on how to deploy it will follow.      
     </div>
     <p> To save your identity and freedom of speech!</p>
-    <div className="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
+    <p>Status { apiStatus === true  ? <i className="icon heartbeat"></i> : (apiStatus === false ? <i className="medkit red icon"></i> : 'checking')}</p>
+    <button disabled={!apiStatus} className="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
       <i className="sign in alternate icon"></i>
         Create Channel
-    </div>
+    </button>
     <div>
       <iframe title="gify" src="https://giphy.com/embed/1AhvWtN00flE0zjr3i" width="180" height="180" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/trippy-abstract-pi-slices-1AhvWtN00flE0zjr3i"><span style={{color: 'white'}}>The Grid.</span></a></p>
     </div>
