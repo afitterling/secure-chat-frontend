@@ -51,10 +51,13 @@ class Channel extends React.Component {
   }
 
   onMessage = (e) => {
+    console.log(e);
     const msg = JSON.parse(e.data.replace(/'/g, "\""));
     // TODO refactor put in external lib
     if (msg.content.encoded) {
-      console.log('encoded received', msg.content.encoded);
+      console.log('message for me', window.atob(msg.content.encoded[this.state.user]));
+      //const base64dec = window.atob(msg.content.encoded);
+      //const decoded = window.atob(escape(msg.content.encoded));
     }
     if (msg.content.key){
       console.log(msg.user, JSON.parse(window.atob(msg.content.key)));
@@ -191,14 +194,13 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     // import 
     const msg = { 
       text: 'encrypted message',
-      encoded: []
+      encoded: {}
     };
-    let data = [];
+    let data = {};
     for (const keyRec in Crypto.pubKeys) {
       console.log(keyRec);
-      const encryptedMessage = await Crypto.encryptMessage(Crypto.pubKeys[keyRec], string);
-      data = [...data, Object.defineProperty({}, keyRec, {value: encryptedMessage})];
-      //console.log(window.btoa(encryptedMessage));
+      const encryptedMessage = await Crypto.encryptMessage(Crypto.pubKeys[keyRec], string);      
+      data[keyRec] = window.btoa(encryptedMessage);
     }
     msg.encoded = data;
     return msg;
