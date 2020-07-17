@@ -53,6 +53,9 @@ class Channel extends React.Component {
   onMessage = (e) => {
     const msg = JSON.parse(e.data.replace(/'/g, "\""));
     // TODO refactor put in external lib
+    if (msg.content.encoded) {
+      console.log('encoded received', msg.content.encoded);
+    }
     if (msg.content.key){
       console.log(msg.user, JSON.parse(window.atob(msg.content.key)));
       const rawKey = JSON.parse(window.atob(msg.content.key));
@@ -186,17 +189,23 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
   const encoderFn = async (string) => {
     console.log(Crypto.pubKeys);
     // import 
+    const msg = { 
+      text: 'encrypted message',
+      encoded: []
+    };
+    let data = [];
     for (const keyRec in Crypto.pubKeys) {
       console.log(keyRec);
       const encryptedMessage = await Crypto.encryptMessage(Crypto.pubKeys[keyRec], string);
-      console.log(window.btoa(encryptedMessage));
+      data = [...data, Object.defineProperty({}, keyRec, {value: encryptedMessage})];
+      //console.log(window.btoa(encryptedMessage));
     }
-    return { 
-      text: 'encrypted message'
-    };
+    msg.encoded = data;
+    return msg;
   }
 
   const postMessageFn = async (content) => {
+    console.log('send content', content);
     return await postMessage(channelId, {
       id: uuidv4(),
       user: user,
@@ -209,7 +218,7 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
   }
 
   const onSubmit = async () => {
-    const textContent = encoded ? encoderFn(inputMessage) : { text: inputMessage };
+    const textContent = encoded ? await encoderFn(inputMessage) : { text: inputMessage };
     console.log(await postMessageFn(textContent));
     setInputMessage('');
   }
