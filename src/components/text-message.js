@@ -24,8 +24,6 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
     }
 
     const encoderFn = async (string) => {
-        console.log(Crypto.pubKeys);
-        // import 
         const msg = {
             text: 'encrypted message',
             encoded: {}
@@ -35,7 +33,6 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
             console.log(keyRec);
             const encrypted = await Crypto.encryptMessage(Crypto.pubKeys[keyRec], string);
             data[keyRec] = arrayBufferToBase64(encrypted);
-            //      data[keyRec] = window.btoa(escape(encrypted));
         }
         msg.encoded = data;
         return msg;
