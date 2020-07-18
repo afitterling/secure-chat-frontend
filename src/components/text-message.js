@@ -9,7 +9,7 @@ import {
 } from '../services/messages';
 import Crypto from '../services/crypto';
 
-export function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
+export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSettingsTransmit }) {
 
     const [inputMessage, setInputMessage] = useState('');
     const [persistency, setPersistence] = useState(true);
@@ -50,7 +50,7 @@ export function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmi
             encoded: encoded ? 1 : 0,
             content: content,
             persistency: persistency ? 1 : 0,
-            cryptoIsAvailable: crypto.isAvailable ? 1 : 0
+            cryptoIsAvailable: crypto ? 1 : 0
         })
     }
 
@@ -91,13 +91,13 @@ export function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmi
             <div className="ui two column grid" style={{marginBottom: "1.0rem"}}>
                 <div className="row">
                     <div className="column">
-                        <button type="button" disabled={Crypto.isUnAvailable()} className="ui button secondary" onClick={onPublishKey}>
+                        <button type="button" disabled={!crypto} className="ui button secondary" onClick={onPublishKey}>
                             <i className="icon share"></i>
                             publish public key
                         </button>
                     </div>
                     <div className="column">
-                        <button type="button" disabled={Crypto.isUnAvailable()} className="ui button secondary" onClick={Crypto.initCryptoAPI}>
+                        <button type="button" disabled={!crypto} className="ui button secondary" onClick={Crypto.initCryptoAPI}>
                             <i className="icon key"></i>
                             create new key pair
                         </button>
@@ -110,7 +110,7 @@ export function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmi
                         <button type="button" className="ui icon button" onClick={onPersistency}>
                             <i className="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
                         </button>
-                        <button type="button" disabled={Crypto.isUnAvailable()} className="ui icon button" onClick={onDecodeEncode}>
+                        <button type="button" disabled={!crypto} className="ui icon button" onClick={onDecodeEncode}>
                             <i className={encoded ? "lock icon" : "unlock icon"} style={{ 'color': encoded ? 'black' : 'grey' }}></i>
                         </button>
                         <input value={inputMessage} onChange={onchange}

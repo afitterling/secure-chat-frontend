@@ -7,20 +7,14 @@ class CryptoService {
         this.initCryptoAPI = this.initCryptoAPI.bind(this);
     }
 
-    isAvailable () {
-        return !!this.keys.length;
-    }
-
-    isUnAvailable () {
-        return !this.isAvailable();
-    }
-
     async initCryptoAPI () {
+        if (!window.crypto) return false;
         this.keys = [...this.keys, await this.generateKey()];
         this.exportedKeys = [ 
             ...this.exportedKeys, 
              await this.exportKey(this.keys[this.keys.length-1].publicKey)
         ];
+        return !!this.keys.length
     }
 
     addPubKey(user, key) {

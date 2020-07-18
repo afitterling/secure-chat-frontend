@@ -28,10 +28,6 @@ class Channel extends React.Component {
         subscribers: 'n/a'
       }
     };
-    if (window.crypto){
-      Crypto.initCryptoAPI();  
-    };
-    
     this.userAvatarUrl = this.getOrCreateAvatar();
   }
 
@@ -96,6 +92,9 @@ class Channel extends React.Component {
 //    console.log('pkey', keys.publicKey);
 //    console.log(await crypto.exportKey(keys.publicKey));
 
+    const crypto = await Crypto.initCryptoAPI();
+    this.setState({crypto: crypto});
+
     this.eventSource();
     this.cancel = setInterval(() => {
       console.log('resubscribe');
@@ -125,14 +124,15 @@ class Channel extends React.Component {
         </Header>
         <ClipboardShare></ClipboardShare>
         {/* <StatusBar settings={this.state.settings}></StatusBar> */}
-        <ChatHistory self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
-        <div className={ Crypto.isAvailable() ? 'green ui message' : 'ui message red' }>
+        <ChatHistory crypto={this.state.crypto} self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
+        <div className={ this.state.crypto ? 'green ui message' : 'ui message red' }>
           <em>Status: </em>
-          { Crypto.isAvailable ? <b>keys for encryption auto generated and available.</b> : <b>encryption unavailable, need to ask either system or safe users for keys! Try reload.</b>}
+          { this.state.crypto ? <b>keys for encryption auto generated and available.</b> : <b>encryption unavailable, need to ask either system or safe users for keys! Try reload.</b>}
         </div>
         <TextMessageInput user={this.state.user}
           onSettingsTransmit={this.onSettingsTransmit}
           avatarUrl={this.userAvatarUrl}
+          crypto={this.state.crypto}
           channelId={this.channelId} />
       </Container>
     );
