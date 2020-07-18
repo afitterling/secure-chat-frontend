@@ -4,8 +4,6 @@ class CryptoService {
         this.pubKeys = {};
         this.exportedKeys = [];
         this.keys = [];
-        if (!window.crypto) return;
-        this.initCryptoAPI();  
         this.initCryptoAPI = this.initCryptoAPI.bind(this);
     }
 
@@ -23,12 +21,10 @@ class CryptoService {
             ...this.exportedKeys, 
              await this.exportKey(this.keys[this.keys.length-1].publicKey)
         ];
-        console.log(this.exportedKeys[0]);
     }
 
     addPubKey(user, key) {
         this.pubKeys[user] = key;
-        console.log(this.pubKeys);
     }
 
     //  "wrapKey", or "unwrapKey"

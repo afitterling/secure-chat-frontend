@@ -28,7 +28,10 @@ class Channel extends React.Component {
         subscribers: 'n/a'
       }
     };
-
+    if (window.crypto){
+      Crypto.initCryptoAPI();  
+    };
+    
     this.userAvatarUrl = this.getOrCreateAvatar();
   }
 

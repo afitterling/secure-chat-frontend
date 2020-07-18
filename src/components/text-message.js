@@ -88,15 +88,21 @@ export function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmi
 
     return (
         <Container style={paddingBottom}>
-            <div className="ui" style={{marginBottom: "1.0rem"}}>
-                <button type="button" disabled={Crypto.isUnAvailable()} className="ui button secondary" onClick={onPublishKey}>
-                    <i className="icon share"></i>
-                    publish public key
-                </button>
-                <button type="button" disabled={Crypto.isUnAvailable()} className="ui button secondary" onClick={Crypto.initCryptoAPI}>
-                    <i className="icon key"></i>
-                    create new key pair
-                </button>
+            <div className="ui two column grid" style={{marginBottom: "1.0rem"}}>
+                <div className="row">
+                    <div className="column">
+                        <button type="button" disabled={Crypto.isUnAvailable()} className="ui button secondary" onClick={onPublishKey}>
+                            <i className="icon share"></i>
+                            publish public key
+                        </button>
+                    </div>
+                    <div className="column">
+                        <button type="button" disabled={Crypto.isUnAvailable()} className="ui button secondary" onClick={Crypto.initCryptoAPI}>
+                            <i className="icon key"></i>
+                            create new key pair
+                        </button>
+                    </div>
+                </div>
             </div>
             <Form onSubmit={onSubmit}>
                 <Form.Field required>
