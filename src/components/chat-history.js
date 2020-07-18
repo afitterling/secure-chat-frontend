@@ -9,7 +9,7 @@ export function ChatHistory({ self, messages }) {
     return (
       <Container style={style}>
         <Comment.Group>
-          {messages.map(({ user, cryptoIsAvailable, encoded, content, avatarUrl, persistency, time, key }, i) => (
+          {messages.map(({ error, user, cryptoIsAvailable, encoded, content, avatarUrl, persistency, time, key }, i) => (
             <Comment key={i}>
               <Comment.Avatar as='a' src={avatarUrl} />
               <Comment.Content>
@@ -22,9 +22,8 @@ export function ChatHistory({ self, messages }) {
                     {persistency ? '' : <i className="icon microphone slash"></i>}
                     {encoded ? <i className="green icon lock"></i> : <i className="grey icon lock open"></i>}
                     {content.text}
-                  </Comment.Text> : <Comment.Text>
-                    <i className="key icon"></i>
-                    Key Published
+                  </Comment.Text> : <Comment.Text>                    
+                    <span class="ui label blue"><i className="key icon"></i> Key Published</span>
                   </Comment.Text>
   
                 }
