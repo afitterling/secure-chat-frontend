@@ -45,7 +45,6 @@ class CryptoService {
     }
 
     async decryptMessage({privateKey}, ciphertext) {
-        debugger;
         return window.crypto.subtle.decrypt(
           {
             name: "RSA-OAEP"
