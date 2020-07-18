@@ -53,16 +53,17 @@ class Channel extends React.Component {
     console.log(e);
     const msg = JSON.parse(e.data.replace(/'/g, "\""));
     // TODO refactor put in external lib
-    if (msg.content.encoded) {
-      //console.log('message for me', window.atob(msg.content.encoded[this.state.user]));
+    if (msg.content.encoded && msg.content.encoded[this.state.user]) {
       const b64data = msg.content.encoded[this.state.user];
       const decrypted = await Crypto.decryptMessage(Crypto.keys[0], base64ToArrayBuffer(b64data));
       const utf8 = new TextDecoder("utf-8").decode(decrypted);
       console.log('decrypted', utf8);
       msg.content.text = utf8;
-      //const base64dec = window.atob(msg.content.encoded);
-      //const decoded = window.atob(escape(msg.content.encoded));
+    } else if (msg.content.encoded) {
+      msg.error = { decode: true};
+      msg.content.text = 'unable to decrypt - exchange keys!';
     }
+
     if (msg.content.key){
       console.log(msg.user, JSON.parse(window.atob(msg.content.key)));
       const rawKey = JSON.parse(window.atob(msg.content.key));
