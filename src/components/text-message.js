@@ -88,14 +88,15 @@ export function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmi
 
   return (
     <Container style={paddingBottom}>
-      <button type="button" className="ui button secondary" onClick={onPublishKey}>publish public key</button>
+      <button type="button" disabled={Crypto.isUnAvailable()} className="ui button secondary" onClick={onPublishKey}>publish public key</button>
+      <button type="button" disabled={Crypto.isUnAvailable()} className="ui button secondary" onClick={Crypto.initCryptoAPI}>create new key pair</button>
       <Form onSubmit={onSubmit}>
         <Form.Field required>
           <div className="ui action input">
             <button type="button" className="ui icon button" onClick={onPersistency}>
               <i className="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
             </button>
-            <button type="button" className="ui icon button" onClick={onDecodeEncode}>
+            <button type="button" disabled={Crypto.isUnAvailable()} className="ui icon button" onClick={onDecodeEncode}>
               <i className={encoded ? "lock icon": "unlock icon"} style={{ 'color': encoded ? 'black' : 'grey' }}></i>
             </button>
             <input value={inputMessage} onChange={onchange}

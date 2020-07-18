@@ -1,12 +1,20 @@
 class CryptoService {
 
     constructor(){
-        this.isAvailable = !!window.crypto;
         this.pubKeys = {};
         this.exportedKeys = [];
         this.keys = [];
-        if (this.isAvailable === false) return;
-        this.initCryptoAPI();        
+        if (!window.crypto) return;
+        this.initCryptoAPI();  
+        this.initCryptoAPI = this.initCryptoAPI.bind(this);
+    }
+
+    isAvailable () {
+        return !!this.keys.length;
+    }
+
+    isUnAvailable () {
+        return !this.isAvailable();
     }
 
     async initCryptoAPI () {
