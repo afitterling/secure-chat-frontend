@@ -44,6 +44,17 @@ class CryptoService {
         });
     }
 
+    async decryptMessage({privateKey}, ciphertext) {
+        debugger;
+        return window.crypto.subtle.decrypt(
+          {
+            name: "RSA-OAEP"
+          },
+          privateKey,
+          ciphertext
+        );
+      }
+
     async exportKey(key){
         return await window.crypto.subtle.exportKey(
             'jwk', //can be "jwk" or "raw"

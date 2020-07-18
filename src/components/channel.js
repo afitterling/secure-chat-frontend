@@ -1,3 +1,4 @@
+//https://ourcodeworld.com/articles/read/164/how-to-convert-an-uint8array-to-string-in-javascript
 import React from 'react';
 import { withRouter } from "react-router";
 import {
@@ -50,12 +51,14 @@ class Channel extends React.Component {
     this.setState({ ...this.state, settings: { ...this.state.settings, subscribers: subscribers } });
   }
 
-  onMessage = (e) => {
+  onMessage = async (e) => {
     console.log(e);
     const msg = JSON.parse(e.data.replace(/'/g, "\""));
     // TODO refactor put in external lib
     if (msg.content.encoded) {
-      console.log('message for me', window.atob(msg.content.encoded[this.state.user]));
+      //console.log('message for me', window.atob(msg.content.encoded[this.state.user]));
+      const btoa = unescape(window.atob(msg.content.encoded[this.state.user]));
+      Crypto.decryptMessage(Crypto.keys[0], new TextEncoder("utf-8").encode(btoa));
       //const base64dec = window.atob(msg.content.encoded);
       //const decoded = window.atob(escape(msg.content.encoded));
     }
@@ -199,8 +202,8 @@ function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmit }) {
     let data = {};
     for (const keyRec in Crypto.pubKeys) {
       console.log(keyRec);
-      const encryptedMessage = await Crypto.encryptMessage(Crypto.pubKeys[keyRec], string);      
-      data[keyRec] = window.btoa(encryptedMessage);
+      const encrypted = await Crypto.encryptMessage(Crypto.pubKeys[keyRec], string);      
+      data[keyRec] = window.btoa(escape(new TextDecoder("utf-8").decode(encrypted)));
     }
     msg.encoded = data;
     return msg;
