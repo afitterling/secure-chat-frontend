@@ -123,7 +123,7 @@ class Channel extends React.Component {
         <ClipboardShare></ClipboardShare>
         {/* <StatusBar settings={this.state.settings}></StatusBar> */}
         <ChatHistory self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
-        <div className={ Crypto.isAvailable ? 'green ui message' : 'ui message red' }>
+        <div className={ Crypto.keys.length > 0 ? 'green ui message' : 'ui message red' }>
           <em>Status: </em>
           { Crypto.keys.length > 0 ? <b>keys for encryption auto generated and available.</b> : <b>encryption api unavailable, need to ask either system or safe users for keys!</b>}
         </div>
