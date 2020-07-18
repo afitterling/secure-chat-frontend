@@ -57,7 +57,9 @@ class Channel extends React.Component {
       //console.log('message for me', window.atob(msg.content.encoded[this.state.user]));
       const b64data = msg.content.encoded[this.state.user];
       const decrypted = await Crypto.decryptMessage(Crypto.keys[0], base64ToArrayBuffer(b64data));
-      console.log('decrypted', new TextDecoder("utf-8").decode(decrypted));
+      const utf8 = new TextDecoder("utf-8").decode(decrypted);
+      console.log('decrypted', utf8);
+      msg.content.text = utf8;
       //const base64dec = window.atob(msg.content.encoded);
       //const decoded = window.atob(escape(msg.content.encoded));
     }

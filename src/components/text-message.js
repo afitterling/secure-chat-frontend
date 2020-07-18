@@ -88,7 +88,7 @@ export function TextMessageInput({ user, channelId, avatarUrl, onSettingsTransmi
 
   return (
     <Container style={paddingBottom}>
-      <button type="button" className="ui button" onClick={onPublishKey}>publish pub key</button>
+      <button type="button" className="ui button secondary" onClick={onPublishKey}>publish public key</button>
       <Form onSubmit={onSubmit}>
         <Form.Field required>
           <div className="ui action input">
