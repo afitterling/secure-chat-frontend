@@ -61,7 +61,7 @@ class Channel extends React.Component {
       msg.content.text = utf8;
     } else if (msg.content.encoded) {
       msg.error = { decode: true};
-      msg.content.text = 'unable to decrypt - exchange keys!';
+      msg.content.text = 'unable to decrypt - publish key!';
     }
 
     if (msg.content.key){
