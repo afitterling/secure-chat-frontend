@@ -102,8 +102,6 @@ class Channel extends React.Component {
     //setTimeout(() => {
       data.messages.forEach(msg => {
         if (msg.content.key){
-          console.log('import');
-          debugger;
           Crypto.importPubKey(msg);
         }
       });  
