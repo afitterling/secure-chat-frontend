@@ -64,14 +64,9 @@ class Channel extends React.Component {
     }
 
     if (msg.content.key){
-      console.log(msg.user, JSON.parse(window.atob(msg.content.key)));
-      const rawKey = JSON.parse(window.atob(msg.content.key));
-      Crypto.importKey(rawKey).then((key)=>{
-        console.log('imported', key);
-        Crypto.addPubKey(msg.user, key);
-      })
-      
+      Crypto.importPubKey(msg);
     }
+
     this.setState({ messages: [...this.state.messages, msg] });
   }
 
@@ -101,8 +96,18 @@ class Channel extends React.Component {
       this.closeEventSource();
       this.eventSource();
     }, 12000);
+
     const data = await fetchMessages(this.channelId);
     this.setState({ messages: data.messages });
+    //setTimeout(() => {
+      data.messages.forEach(msg => {
+        if (msg.content.key){
+          console.log('import');
+          debugger;
+          Crypto.importPubKey(msg);
+        }
+      });  
+    //}, 2000);
   }
 
   componentWillUnmount() {

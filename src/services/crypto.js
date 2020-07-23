@@ -17,6 +17,15 @@ class CryptoService {
         return !!this.keys.length
     }
 
+    importPubKey = (msg) => {
+        console.log(msg.user, JSON.parse(window.atob(msg.content.key)));
+        const rawKey = JSON.parse(window.atob(msg.content.key));
+        Crypto.importKey(rawKey).then((key)=>{
+          console.log('imported', key);
+          Crypto.addPubKey(msg.user, key);
+        })
+      }
+    
     addPubKey(user, key) {
         this.pubKeys[user] = key;
     }

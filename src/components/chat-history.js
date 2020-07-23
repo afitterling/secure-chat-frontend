@@ -23,7 +23,7 @@ export function ChatHistory({ self, messages }) {
                     {encoded ? <i className="green icon lock"></i> : <i className="grey icon lock open"></i>}
                     {content.text}
                   </Comment.Text> : <Comment.Text>                    
-                    <span class="ui label blue"><i className="key icon"></i> Key Published</span>
+                    <span className="ui label blue"><i className="key icon"></i> Key Published</span>
                   </Comment.Text>
   
                 }
