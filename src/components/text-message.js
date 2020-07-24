@@ -85,15 +85,13 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
 
     return (
         <Container style={paddingBottom}>
-            <div className="ui two column grid" style={{marginBottom: "1.0rem"}}>
+            <div className="ui two column grid" style={{ marginBottom: "1.0rem" }}>
                 <div className="row">
-                    <div className="column">
+                    <div className="six columns">
                         <button type="button" disabled={!crypto} className="ui button secondary" onClick={onPublishKey}>
                             <i className="icon share"></i>
                             publish public key
                         </button>
-                    </div>
-                    <div className="column">
                         <button type="button" disabled={!crypto} className="ui button secondary" onClick={Crypto.initCryptoAPI}>
                             <i className="icon key"></i>
                             create new key pair
@@ -101,7 +99,7 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
                     </div>
                 </div>
             </div>
-            <Form onSubmit={onSubmit}>
+            <Form onSubmit={onSubmit} style={{marginBotton: '1rem'}}>
                 <Form.Field required>
                     <div className="ui action input">
                         <button type="button" className="ui icon button" onClick={onPersistency}>
@@ -112,9 +110,9 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
                         </button>
                         <input value={inputMessage} onChange={onchange}
                             placeholder={placeholderMessage()} />
-                        <button className="ui button" type="submit">
+                        <button className="ui button primary" type="submit">
                             send
-            </button>
+                        </button>
                     </div>
                 </Form.Field>
             </Form>
