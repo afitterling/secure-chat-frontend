@@ -101,14 +101,15 @@ class Channel extends React.Component {
     const data = await fetchMessages(this.channelId);
     this.setState({ messages: data.messages });
 
-/*     const msgKeys = data.messages.filter( msg => msg.content.key);
+    const msgKeys = data.messages.filter( msg => msg.content.key);
     msgKeys.forEach(
       async mk => {
         const k = await extractPubKeyFromMessage(mk);
         importPubKey(k);
+        console.log(k);
       }
     );
- */    
+    
   }
 
   componentWillUnmount() {
