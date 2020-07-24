@@ -99,7 +99,7 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
                     </div>
                 </div>
             </div>
-            <Form onSubmit={onSubmit} style={{marginBotton: '1rem'}}>
+            <Form onSubmit={onSubmit} style={{paddingBotton: '50px'}}>
                 <Form.Field required>
                     <div className="ui action input">
                         <button type="button" className="ui icon button" onClick={onPersistency}>
