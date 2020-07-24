@@ -16,7 +16,7 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
     const [encoded, setEncoded] = useState(false);
 
     const paddingBottom = {
-        marginBottom: '2.0rem'
+        paddingBottom: '2.0rem'
     }
 
     const onchange = (event) => {
@@ -99,7 +99,7 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
                     </div>
                 </div>
             </div>
-            <Form onSubmit={onSubmit}>
+            <Form onSubmit={onSubmit} style={{ marginBottom: "1.0rem" }}>
                 <Form.Field required>
                     <div className="ui action input">
                         <button type="button" className="ui icon button" onClick={onPersistency}>
@@ -116,7 +116,6 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
                     </div>
                 </Form.Field>
             </Form>
-            <p><br></br></p>
         </Container>
     );
 }
