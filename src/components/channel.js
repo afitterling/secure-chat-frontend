@@ -64,7 +64,8 @@ class Channel extends React.Component {
     }
 
     if (msg.content.key){
-      Crypto.importPubKey(msg);
+      const k = await extractPubKeyFromMessage(msg);
+      importPubKey(k);
     }
 
     this.setState({ messages: [...this.state.messages, msg] });
@@ -99,13 +100,15 @@ class Channel extends React.Component {
 
     const data = await fetchMessages(this.channelId);
     this.setState({ messages: data.messages });
-    //setTimeout(() => {
-      data.messages.forEach(msg => {
-        if (msg.content.key){
-          Crypto.importPubKey(msg);
-        }
-      });  
-    //}, 2000);
+
+/*     const msgKeys = data.messages.filter( msg => msg.content.key);
+    msgKeys.forEach(
+      async mk => {
+        const k = await extractPubKeyFromMessage(mk);
+        importPubKey(k);
+      }
+    );
+ */    
   }
 
   componentWillUnmount() {
@@ -163,6 +166,16 @@ function base64ToArrayBuffer(base64) {
         bytes[i] = binary_string.charCodeAt(i);
     }
     return bytes.buffer;
+}
+
+const importPubKey = (k) => {
+  Crypto.addPubKey(k.user, k.key);
+}
+
+const extractPubKeyFromMessage = async (msg) => {
+  const rawKey = JSON.parse(window.atob(msg.content.key));
+  const key = await Crypto.importKey(rawKey);
+  return {user: msg.user, key: key};
 }
 
 export default withRouter(Channel);
