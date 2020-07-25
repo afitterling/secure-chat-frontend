@@ -20,9 +20,9 @@ export function ClipboardShare(){
   
     return (
       <Header as='h4' onClick={share}>
-      <Icon name='copy' color={copied ? 'blue': 'black'}/>
+      <Icon name={copied ? 'check' : 'copy'} color={copied ? 'green': 'black'}/>
         <Header.Content>
-          {copied ? 'copied' : 'Copy the above browser URL for sharing'}
+          {copied ? 'Copied to clipboard' : 'Copy the above browser URL for sharing'}
         </Header.Content>
       </Header>
     );
