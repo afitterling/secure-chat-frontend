@@ -83,19 +83,25 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
         );
     }
 
+    const newIdentity = () => {
+        localStorage.removeItem('avatarUrl');
+        localStorage.removeItem('user');
+        window.location.reload();    
+    }
+
     return (
         <Container style={paddingBottom}>
             <div className="ui two column grid" style={{ marginBottom: "1.0rem" }}>
                 <div className="row">
                     <div className="six columns">
                         <button type="button" disabled={!crypto} className="ui button secondary" onClick={onPublishKey}>
-                            <i className="icon share"></i>
-                            publish public key
-                        </button>
-                        {/* <button type="button" disabled={!crypto} className="ui button secondary" onClick={Crypto.initCryptoAPI}>
                             <i className="icon key"></i>
-                            create new key pair
-                        </button> */}
+                            publish key
+                        </button>
+                        <button type="button" disabled={!crypto} className="ui button secondary" onClick={newIdentity}>
+                            <i className="icon user"></i>
+                            new identity
+                        </button>
                     </div>
                 </div>
             </div>
