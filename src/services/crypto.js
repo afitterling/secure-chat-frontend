@@ -5,6 +5,7 @@ class CryptoService {
         this.exportedKeys = [];
         this.keys = [];
         this.initCryptoAPI = this.initCryptoAPI.bind(this);
+        this.persistPK = this.persistPK.bind(this);
     }
 
     async initCryptoAPI () {
@@ -14,7 +15,17 @@ class CryptoService {
             ...this.exportedKeys, 
              await this.exportKey(this.keys[this.keys.length-1].publicKey)
         ];
-        return !!this.keys.length
+        return !!this.keys.length;
+    }
+
+    async persistPK () {
+        const privk = await this.exportKey(this.keys[this.keys.length-1].privateKey)
+        const pubk = await this.exportKey(this.keys[this.keys.length-1].publicKey)
+        localStorage.setItem('privk', window.btoa(JSON.stringify(privk)));
+        localStorage.setItem('pubk', window.btoa(JSON.stringify(pubk)));
+    }
+
+    async restorePK () {
     }
 
     addPubKey(user, key) {

@@ -102,6 +102,10 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
                             <i className="icon user"></i>
                             new identity
                         </button>
+                        <button type="button" disabled={!crypto} className="ui button secondary" onClick={Crypto.persistPK}>
+                            <i className="icon save"></i>
+                            persist
+                        </button>
                     </div>
                 </div>
             </div>
