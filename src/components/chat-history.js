@@ -13,9 +13,16 @@ export function ChatHistory({ self, messages }) {
             <Comment key={i}>
               <Comment.Avatar as='a' src={avatarUrl} />
               <Comment.Content>
-                <Comment.Author>{ cryptoIsAvailable === 1? <Icon name='shield'/> : null }{user}<Comment.Metadata>{
+                <Comment.Author>
+                  { 
+                    cryptoIsAvailable === 1? <Icon name='shield'/> : null 
+                  }
+                  { user === self ? <div className="ui purple horizontal label">You</div> : null}
+                  {user}
+                  <Comment.Metadata>{
                   new Date(time * 1000).toLocaleString()
-                }</Comment.Metadata></Comment.Author>
+                }</Comment.Metadata>
+                </Comment.Author>
                 {
                   !content.key ?               
                   <Comment.Text>

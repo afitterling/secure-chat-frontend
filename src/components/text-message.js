@@ -92,16 +92,17 @@ export function TextMessageInput({ crypto, user, channelId, avatarUrl, onSetting
                             <i className="icon share"></i>
                             publish public key
                         </button>
-                        <button type="button" disabled={!crypto} className="ui button secondary" onClick={Crypto.initCryptoAPI}>
+                        {/* <button type="button" disabled={!crypto} className="ui button secondary" onClick={Crypto.initCryptoAPI}>
                             <i className="icon key"></i>
                             create new key pair
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </div>
             <Form onSubmit={onSubmit} style={{ marginBottom: "1.0rem" }}>
                 <Form.Field required>
                     <div className="ui action input">
+                        <img alt="your avator" src={avatarUrl}></img>
                         <button type="button" className="ui icon button" onClick={onPersistency}>
                             <i className="database icon" style={{ 'color': persistency ? 'black' : 'grey' }}></i>
                         </button>
