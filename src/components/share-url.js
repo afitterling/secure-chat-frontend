@@ -22,7 +22,7 @@ export function ClipboardShare(){
       <Header as='h4' onClick={share}>
       <Icon name='copy' color={copied ? 'blue': 'black'}/>
         <Header.Content>
-          {copied ? 'copied' : 'Copy the above broswer URL for sharing'}
+          {copied ? 'copied' : 'Copy the above browser URL for sharing'}
         </Header.Content>
       </Header>
     );
