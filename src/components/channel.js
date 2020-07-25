@@ -123,7 +123,7 @@ class Channel extends React.Component {
         <Header as='h2'>
           <Icon name='users' circular={true} />
           <Header.Content>
-            Secure Chat
+            Postbox Ninja
             <Header.Subheader>
               With Privacy in Mind
             </Header.Subheader>
