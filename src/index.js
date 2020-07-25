@@ -66,17 +66,17 @@ function Home() {
       </h2>
       <div className="ui one column stackable center aligned page grid">
    <div className="column twelve wide">
-    <div className="ui message blue">
-      Warning, System in alpha stage. Use with care. Any new version will be announced on this page.
+    <div className="ui message purple">
+      You are currently using a development cluster.
     </div>
     <p> To save your identity and freedom of speech!</p>
     <p>Status { apiStatus === true  ? <i className="icon heartbeat"></i> : (apiStatus === false ? <i className="medkit red icon"></i> : 'checking')}</p>
     <button disabled={!apiStatus} className="ui twitter button" onClick={onClick} style={ {marginBottom: '1.2rem'}}>
       <i className="sign in alternate icon"></i>
-        Create Channel
+        Create Postbox
     </button>
     <div>
-      <iframe title="gify" src="https://giphy.com/embed/1AhvWtN00flE0zjr3i" width="180" height="180" frameBorder="0" className="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/trippy-abstract-pi-slices-1AhvWtN00flE0zjr3i"><span style={{color: 'white'}}>The Grid.</span></a></p>
+      <iframe title="gify" src="https://giphy.com/embed/4Ev0Ari2Nd9io" width="180" height="180" frameBorder="0" className="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/trippy-abstract-pi-slices-1AhvWtN00flE0zjr3i"><span style={{color: 'white'}}>The Grid.</span></a></p>
     </div>
     <p></p>
     <p><span><a href={MEDIUM_ARTICLE}><i className="arrow circle right icon"></i> See how it works</a></span></p>
