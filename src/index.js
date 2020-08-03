@@ -67,7 +67,7 @@ function Home() {
       <div className="ui one column stackable center aligned page grid">
    <div className="column twelve wide">
     <div className="ui message purple">
-      Attention: To communicate securely with strong encryption all chat partners must stay online and publish their keys.
+      To communicate securely with strong encryption all chat partners must stay online and publish their keys. Each Message's time to live (TTL) is currently fixed to 12h after its creation.
     </div>
     <p> To save your identity and freedom of speech!</p>
     <p>Status { apiStatus === true  ? <i className="icon heartbeat"></i> : (apiStatus === false ? <i className="medkit red icon"></i> : 'checking')}</p>
