@@ -80,8 +80,8 @@ function Home() {
     </div>
     <p></p>
     <p><span><a href={MEDIUM_ARTICLE}><i className="arrow circle right icon"></i> See how it works</a></span></p>
-    <p><span><a href="https://sp33c.tech">Who am I?</a></span></p>
     <p><span><a href="https://paypal.me/sp33c?locale.x=de_DE"><i className="circle payment icon"></i> Please, help me to support this service financially!</a></span></p>
+    <p><span><a href="https://sp33c.tech">Who am I?</a></span></p>
    </div>
 </div>
     </Container>
