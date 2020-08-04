@@ -134,7 +134,7 @@ class Channel extends React.Component {
         <ChatHistory crypto={this.state.crypto} self={this.state.user} channelId={this.channelId} atarUrl={this.userAvatarUrl} messages={this.state.messages} />
         <div className={ this.state.crypto ? 'green ui message' : 'ui message red' }>
           <em>Status: </em>
-          { this.state.crypto ? <b>Identity and encryption keys generated. Identity persisted to this particular browser.</b> : <b>encryption unavailable, need to ask either system or safe users for keys! Try reload.</b>}
+          { this.state.crypto ? <b>Identity and encryption keys generated. Identity persisted to this particular browser. Encryption keys held in-memory in this browser tab only!</b> : <b>encryption unavailable, need to ask either system or safe users for keys! Try reload.</b>}
         </div>
         <TextMessageInput user={this.state.user}
           onSettingsTransmit={this.onSettingsTransmit}
