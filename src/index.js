@@ -76,9 +76,9 @@ function Home() {
         Create Postbox
     </button>
     <div>
-    <iframe title="grid" src="https://giphy.com/embed/1AhvWtN00flE0zjr3i" width="180" height="180" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-    <iframe title="song" width="0" height="0" src="https://www.youtube.com/embed/S5S6s5dZXNM?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <p><a href="https://giphy.com/gifs/trippy-abstract-pi-slices-1AhvWtN00flE0zjr3i"><span style={{color: 'white'}}>The Grid.</span></a></p>
+      <iframe title="grid" src="https://giphy.com/embed/1AhvWtN00flE0zjr3i" width="180" height="180" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+      <p><a href="https://giphy.com/gifs/trippy-abstract-pi-slices-1AhvWtN00flE0zjr3i"><span style={{color: 'white'}}>The Grid.</span></a></p>
+      <iframe width="560" height="0" src="https://www.youtube.com/embed/S5S6s5dZXNM?autpplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     <p></p>
     <p><span><a href={MEDIUM_ARTICLE}><i className="arrow circle right icon"></i> See how it works</a></span></p>
